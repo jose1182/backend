@@ -1,2 +1,2 @@
 # backend
-proyecto para el lado servidor
+proyecto para el lado servidor. Realizado con JHipster
