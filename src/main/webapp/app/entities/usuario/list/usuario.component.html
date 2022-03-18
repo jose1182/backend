@@ -1,0 +1,118 @@
+<div>
+  <h2 id="page-heading" data-cy="UsuarioHeading">
+    <span>Usuarios</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-usuario"
+        [routerLink]="['/usuario/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Usuario </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="usuarios?.length === 0">
+    <span>No usuarios found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="usuarios && usuarios.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="nombre"><span>Nombre</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="apellidos"><span>Apellidos</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="correo"><span>Correo</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dni"><span>Dni</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="direccion"><span>Direccion</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="localidad"><span>Localidad</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="provincia"><span>Provincia</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="profesion"><span>Profesion</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="fn"><span>Fn</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="fechaRegistro"><span>Fecha Registro</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="user.login"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/usuario', usuario.id, 'view']">{{ usuario.id }}</a>
+          </td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.apellidos }}</td>
+          <td>{{ usuario.correo }}</td>
+          <td>{{ usuario.dni }}</td>
+          <td>{{ usuario.direccion }}</td>
+          <td>{{ usuario.localidad }}</td>
+          <td>{{ usuario.provincia }}</td>
+          <td>{{ usuario.profesion }}</td>
+          <td>{{ usuario.fn | formatMediumDatetime }}</td>
+          <td>{{ usuario.fechaRegistro | formatMediumDatetime }}</td>
+          <td>
+            {{ usuario.user?.login }}
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/usuario', usuario.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/usuario', usuario.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(usuario)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="usuarios && usuarios.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

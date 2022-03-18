@@ -48,6 +48,8 @@ public class CacheConfiguration {
             createCache(cm, com.netjob.app.domain.User.class.getName());
             createCache(cm, com.netjob.app.domain.Authority.class.getName());
             createCache(cm, com.netjob.app.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.netjob.app.domain.Valoracion.class.getName());
+            createCache(cm, com.netjob.app.domain.Usuario.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

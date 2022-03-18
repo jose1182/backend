@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="usuario">
+      <h2 data-cy="usuarioDetailsHeading"><span>Usuario</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ usuario.id }}</span>
+        </dd>
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ usuario.nombre }}</span>
+        </dd>
+        <dt><span>Apellidos</span></dt>
+        <dd>
+          <span>{{ usuario.apellidos }}</span>
+        </dd>
+        <dt><span>Correo</span></dt>
+        <dd>
+          <span>{{ usuario.correo }}</span>
+        </dd>
+        <dt><span>Dni</span></dt>
+        <dd>
+          <span>{{ usuario.dni }}</span>
+        </dd>
+        <dt><span>Direccion</span></dt>
+        <dd>
+          <span>{{ usuario.direccion }}</span>
+        </dd>
+        <dt><span>Localidad</span></dt>
+        <dd>
+          <span>{{ usuario.localidad }}</span>
+        </dd>
+        <dt><span>Provincia</span></dt>
+        <dd>
+          <span>{{ usuario.provincia }}</span>
+        </dd>
+        <dt><span>Profesion</span></dt>
+        <dd>
+          <span>{{ usuario.profesion }}</span>
+        </dd>
+        <dt><span>Fn</span></dt>
+        <dd>
+          <span>{{ usuario.fn | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Fecha Registro</span></dt>
+        <dd>
+          <span>{{ usuario.fechaRegistro | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ usuario.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/usuario', usuario.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

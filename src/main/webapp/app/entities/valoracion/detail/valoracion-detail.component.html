@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="valoracion">
+      <h2 data-cy="valoracionDetailsHeading"><span>Valoracion</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ valoracion.id }}</span>
+        </dd>
+        <dt><span>Descripcion</span></dt>
+        <dd>
+          <span>{{ valoracion.descripcion }}</span>
+        </dd>
+        <dt><span>Fecha</span></dt>
+        <dd>
+          <span>{{ valoracion.fecha | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Id Servicio</span></dt>
+        <dd>
+          <span>{{ valoracion.id_servicio }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/valoracion', valoracion.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
