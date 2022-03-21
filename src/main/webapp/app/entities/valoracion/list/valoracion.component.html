@@ -35,7 +35,9 @@
           <th scope="col"><span>ID</span></th>
           <th scope="col"><span>Descripcion</span></th>
           <th scope="col"><span>Fecha</span></th>
-          <th scope="col"><span>Id Servicio</span></th>
+          <th scope="col"><span>Puntuacion</span></th>
+          <th scope="col"><span>Usuario</span></th>
+          <th scope="col"><span>Servicio</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -46,7 +48,17 @@
           </td>
           <td>{{ valoracion.descripcion }}</td>
           <td>{{ valoracion.fecha | formatMediumDatetime }}</td>
-          <td>{{ valoracion.id_servicio }}</td>
+          <td>{{ valoracion.puntuacion }}</td>
+          <td>
+            <div *ngIf="valoracion.usuario">
+              <a [routerLink]="['/usuario', valoracion.usuario?.id, 'view']">{{ valoracion.usuario?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="valoracion.servicio">
+              <a [routerLink]="['/servicio', valoracion.servicio?.id, 'view']">{{ valoracion.servicio?.id }}</a>
+            </div>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

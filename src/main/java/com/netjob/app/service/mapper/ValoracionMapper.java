@@ -7,5 +7,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Valoracion} and its DTO {@link ValoracionDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
-public interface ValoracionMapper extends EntityMapper<ValoracionDTO, Valoracion> {}
+@Mapper(componentModel = "spring", uses = { UsuarioMapper.class, ServicioMapper.class })
+public interface ValoracionMapper extends EntityMapper<ValoracionDTO, Valoracion> {
+    @Mapping(target = "usuario", source = "usuario", qualifiedByName = "id")
+    @Mapping(target = "servicio", source = "servicio", qualifiedByName = "id")
+    ValoracionDTO toDto(Valoracion s);
+}

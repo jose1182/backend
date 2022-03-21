@@ -1,11 +1,11 @@
-id;descripcion;fecha;id_servicio
-1;Camiseta TCP multiestado;2022-02-23T05:28:46;19966
-2;Rupee;2022-02-23T04:19:36;32257
-3;Facilitador;2022-02-23T07:08:35;71175
-4;Jardines SQL Videojuegos;2022-02-23T08:39:33;80512
-5;Optimización;2022-02-23T10:11:54;22557
-6;mobile Mercado fallos;2022-02-23T06:56:58;40388
-7;Funcionario invoice parsing;2022-02-23T13:48:18;23213
-8;Fundamental index value-added;2022-02-23T19:17:21;6310
-9;Ordenador deposit;2022-02-23T14:21:41;89086
-10;de Kip;2022-02-23T13:09:30;87664
+id;descripcion;fecha;puntuacion
+1;Camiseta TCP multiestado;2022-02-23T05:28:46;1
+2;Rupee;2022-02-23T04:19:36;1
+3;Facilitador;2022-02-23T07:08:35;4
+4;Jardines SQL Videojuegos;2022-02-23T08:39:33;4
+5;Optimización;2022-02-23T10:11:54;1
+6;mobile Mercado fallos;2022-02-23T06:56:58;2
+7;Funcionario invoice parsing;2022-02-23T13:48:18;1
+8;Fundamental index value-added;2022-02-23T19:17:21;0
+9;Ordenador deposit;2022-02-23T14:21:41;5
+10;de Kip;2022-02-23T13:09:30;5

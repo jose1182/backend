@@ -68,6 +68,14 @@
       "ownerSide": true,
       "relationshipName": "user",
       "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "conversacion",
+      "otherEntityRelationshipName": "usuario",
+      "ownerSide": true,
+      "relationshipName": "conversacion",
+      "relationshipType": "many-to-many"
     }
   ],
   "service": "serviceClass"

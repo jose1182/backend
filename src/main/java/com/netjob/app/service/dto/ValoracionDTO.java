@@ -19,7 +19,14 @@ public class ValoracionDTO implements Serializable {
     @NotNull
     private Instant fecha;
 
-    private Integer id_servicio;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 5)
+    private Integer puntuacion;
+
+    private UsuarioDTO usuario;
+
+    private ServicioDTO servicio;
 
     public Long getId() {
         return id;
@@ -45,12 +52,28 @@ public class ValoracionDTO implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getId_servicio() {
-        return id_servicio;
+    public Integer getPuntuacion() {
+        return puntuacion;
     }
 
-    public void setId_servicio(Integer id_servicio) {
-        this.id_servicio = id_servicio;
+    public void setPuntuacion(Integer puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+
+    public ServicioDTO getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(ServicioDTO servicio) {
+        this.servicio = servicio;
     }
 
     @Override
@@ -81,7 +104,9 @@ public class ValoracionDTO implements Serializable {
             "id=" + getId() +
             ", descripcion='" + getDescripcion() + "'" +
             ", fecha='" + getFecha() + "'" +
-            ", id_servicio=" + getId_servicio() +
+            ", puntuacion=" + getPuntuacion() +
+            ", usuario=" + getUsuario() +
+            ", servicio=" + getServicio() +
             "}";
     }
 }

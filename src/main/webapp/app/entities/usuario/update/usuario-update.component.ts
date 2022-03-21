@@ -12,6 +12,8 @@ import { IUsuario, Usuario } from '../usuario.model';
 import { UsuarioService } from '../service/usuario.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
+import { IConversacion } from 'app/entities/conversacion/conversacion.model';
+import { ConversacionService } from 'app/entities/conversacion/service/conversacion.service';
 
 @Component({
   selector: 'jhi-usuario-update',
@@ -21,6 +23,7 @@ export class UsuarioUpdateComponent implements OnInit {
   isSaving = false;
 
   usersSharedCollection: IUser[] = [];
+  conversacionsSharedCollection: IConversacion[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -35,11 +38,13 @@ export class UsuarioUpdateComponent implements OnInit {
     fn: [null, [Validators.required]],
     fechaRegistro: [],
     user: [],
+    conversacions: [],
   });
 
   constructor(
     protected usuarioService: UsuarioService,
     protected userService: UserService,
+    protected conversacionService: ConversacionService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -76,6 +81,21 @@ export class UsuarioUpdateComponent implements OnInit {
     return item.id!;
   }
 
+  trackConversacionById(index: number, item: IConversacion): number {
+    return item.id!;
+  }
+
+  getSelectedConversacion(option: IConversacion, selectedVals?: IConversacion[]): IConversacion {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IUsuario>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -109,9 +129,14 @@ export class UsuarioUpdateComponent implements OnInit {
       fn: usuario.fn ? usuario.fn.format(DATE_TIME_FORMAT) : null,
       fechaRegistro: usuario.fechaRegistro ? usuario.fechaRegistro.format(DATE_TIME_FORMAT) : null,
       user: usuario.user,
+      conversacions: usuario.conversacions,
     });
 
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing(this.usersSharedCollection, usuario.user);
+    this.conversacionsSharedCollection = this.conversacionService.addConversacionToCollectionIfMissing(
+      this.conversacionsSharedCollection,
+      ...(usuario.conversacions ?? [])
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -120,6 +145,16 @@ export class UsuarioUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
       .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing(users, this.editForm.get('user')!.value)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
+
+    this.conversacionService
+      .query()
+      .pipe(map((res: HttpResponse<IConversacion[]>) => res.body ?? []))
+      .pipe(
+        map((conversacions: IConversacion[]) =>
+          this.conversacionService.addConversacionToCollectionIfMissing(conversacions, ...(this.editForm.get('conversacions')!.value ?? []))
+        )
+      )
+      .subscribe((conversacions: IConversacion[]) => (this.conversacionsSharedCollection = conversacions));
   }
 
   protected createFromForm(): IUsuario {
@@ -139,6 +174,7 @@ export class UsuarioUpdateComponent implements OnInit {
         ? dayjs(this.editForm.get(['fechaRegistro'])!.value, DATE_TIME_FORMAT)
         : undefined,
       user: this.editForm.get(['user'])!.value,
+      conversacions: this.editForm.get(['conversacions'])!.value,
     };
   }
 }

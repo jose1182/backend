@@ -1,0 +1,42 @@
+{
+  "changelogDate": "20220321181625",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "texto",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fecha",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Mensaje",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "usuario",
+      "relationshipName": "emisor",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "usuario",
+      "relationshipName": "receptor",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": []
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "conversacion",
+      "relationshipName": "conversacion",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

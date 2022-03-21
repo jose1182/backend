@@ -82,6 +82,15 @@ public class UsuarioService {
     }
 
     /**
+     * Get all the usuarios with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<UsuarioDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return usuarioRepository.findAllWithEagerRelationships(pageable).map(usuarioMapper::toDto);
+    }
+
+    /**
      * Get one usuario by id.
      *
      * @param id the id of the entity.
@@ -90,7 +99,7 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public Optional<UsuarioDTO> findOne(Long id) {
         log.debug("Request to get Usuario : {}", id);
-        return usuarioRepository.findById(id).map(usuarioMapper::toDto);
+        return usuarioRepository.findOneWithEagerRelationships(id).map(usuarioMapper::toDto);
     }
 
     /**

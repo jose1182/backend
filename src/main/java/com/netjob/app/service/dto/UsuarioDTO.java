@@ -2,7 +2,9 @@ package com.netjob.app.service.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.*;
 
 /**
@@ -44,6 +46,8 @@ public class UsuarioDTO implements Serializable {
     private Instant fechaRegistro;
 
     private UserDTO user;
+
+    private Set<ConversacionDTO> conversacions = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -141,6 +145,14 @@ public class UsuarioDTO implements Serializable {
         this.user = user;
     }
 
+    public Set<ConversacionDTO> getConversacions() {
+        return conversacions;
+    }
+
+    public void setConversacions(Set<ConversacionDTO> conversacions) {
+        this.conversacions = conversacions;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -178,6 +190,7 @@ public class UsuarioDTO implements Serializable {
             ", fn='" + getFn() + "'" +
             ", fechaRegistro='" + getFechaRegistro() + "'" +
             ", user=" + getUser() +
+            ", conversacions=" + getConversacions() +
             "}";
     }
 }

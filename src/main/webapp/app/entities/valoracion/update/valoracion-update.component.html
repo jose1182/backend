@@ -54,15 +54,49 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_id_servicio">Id Servicio</label>
+          <label class="form-control-label" for="field_puntuacion">Puntuacion</label>
           <input
             type="number"
             class="form-control"
-            name="id_servicio"
-            id="field_id_servicio"
-            data-cy="id_servicio"
-            formControlName="id_servicio"
+            name="puntuacion"
+            id="field_puntuacion"
+            data-cy="puntuacion"
+            formControlName="puntuacion"
           />
+          <div *ngIf="editForm.get('puntuacion')!.invalid && (editForm.get('puntuacion')!.dirty || editForm.get('puntuacion')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('puntuacion')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('puntuacion')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('puntuacion')?.errors?.max"> This field cannot be more than 5. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('puntuacion')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_usuario">Usuario</label>
+          <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+            >
+              {{ usuarioOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_servicio">Servicio</label>
+          <select class="form-control" id="field_servicio" data-cy="servicio" name="servicio" formControlName="servicio">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="servicioOption.id === editForm.get('servicio')!.value?.id ? editForm.get('servicio')!.value : servicioOption"
+              *ngFor="let servicioOption of serviciosSharedCollection; trackBy: trackServicioById"
+            >
+              {{ servicioOption.id }}
+            </option>
+          </select>
         </div>
       </div>
 

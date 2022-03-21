@@ -96,8 +96,23 @@ public class ValoracionQueryService extends QueryService<Valoracion> {
             if (criteria.getFecha() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFecha(), Valoracion_.fecha));
             }
-            if (criteria.getId_servicio() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getId_servicio(), Valoracion_.id_servicio));
+            if (criteria.getPuntuacion() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPuntuacion(), Valoracion_.puntuacion));
+            }
+            if (criteria.getUsuarioId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Valoracion_.usuario, JoinType.LEFT).get(Usuario_.id))
+                    );
+            }
+            if (criteria.getServicioId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getServicioId(),
+                            root -> root.join(Valoracion_.servicio, JoinType.LEFT).get(Servicio_.id)
+                        )
+                    );
             }
         }
         return specification;

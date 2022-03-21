@@ -2,26 +2,35 @@ package com.netjob.app.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.netjob.app.IntegrationTest;
+import com.netjob.app.domain.Conversacion;
 import com.netjob.app.domain.User;
 import com.netjob.app.domain.Usuario;
 import com.netjob.app.repository.UsuarioRepository;
+import com.netjob.app.service.UsuarioService;
 import com.netjob.app.service.criteria.UsuarioCriteria;
 import com.netjob.app.service.dto.UsuarioDTO;
 import com.netjob.app.service.mapper.UsuarioMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link UsuarioResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class UsuarioResourceIT {
@@ -74,8 +84,14 @@ class UsuarioResourceIT {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Mock
+    private UsuarioRepository usuarioRepositoryMock;
+
     @Autowired
     private UsuarioMapper usuarioMapper;
+
+    @Mock
+    private UsuarioService usuarioServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -380,6 +396,24 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].profesion").value(hasItem(DEFAULT_PROFESION)))
             .andExpect(jsonPath("$.[*].fn").value(hasItem(DEFAULT_FN.toString())))
             .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllUsuariosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(usuarioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restUsuarioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(usuarioServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllUsuariosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(usuarioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restUsuarioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(usuarioServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test
@@ -1165,6 +1199,32 @@ class UsuarioResourceIT {
 
         // Get all the usuarioList where user equals to (userId + 1)
         defaultUsuarioShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByConversacionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+        Conversacion conversacion;
+        if (TestUtil.findAll(em, Conversacion.class).isEmpty()) {
+            conversacion = ConversacionResourceIT.createEntity(em);
+            em.persist(conversacion);
+            em.flush();
+        } else {
+            conversacion = TestUtil.findAll(em, Conversacion.class).get(0);
+        }
+        em.persist(conversacion);
+        em.flush();
+        usuario.addConversacion(conversacion);
+        usuarioRepository.saveAndFlush(usuario);
+        Long conversacionId = conversacion.getId();
+
+        // Get all the usuarioList where conversacion equals to conversacionId
+        defaultUsuarioShouldBeFound("conversacionId.equals=" + conversacionId);
+
+        // Get all the usuarioList where conversacion equals to (conversacionId + 1)
+        defaultUsuarioShouldNotBeFound("conversacionId.equals=" + (conversacionId + 1));
     }
 
     /**

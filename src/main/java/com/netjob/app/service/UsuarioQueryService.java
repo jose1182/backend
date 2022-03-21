@@ -126,6 +126,15 @@ public class UsuarioQueryService extends QueryService<Usuario> {
                         buildSpecification(criteria.getUserId(), root -> root.join(Usuario_.user, JoinType.LEFT).get(User_.id))
                     );
             }
+            if (criteria.getConversacionId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConversacionId(),
+                            root -> root.join(Usuario_.conversacions, JoinType.LEFT).get(Conversacion_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

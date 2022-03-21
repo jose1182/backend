@@ -22,9 +22,21 @@
         <dd>
           <span>{{ valoracion.fecha | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Id Servicio</span></dt>
+        <dt><span>Puntuacion</span></dt>
         <dd>
-          <span>{{ valoracion.id_servicio }}</span>
+          <span>{{ valoracion.puntuacion }}</span>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <div *ngIf="valoracion.usuario">
+            <a [routerLink]="['/usuario', valoracion.usuario?.id, 'view']">{{ valoracion.usuario?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Servicio</span></dt>
+        <dd>
+          <div *ngIf="valoracion.servicio">
+            <a [routerLink]="['/servicio', valoracion.servicio?.id, 'view']">{{ valoracion.servicio?.id }}</a>
+          </div>
         </dd>
       </dl>
 

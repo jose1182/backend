@@ -50,6 +50,16 @@ public class CacheConfiguration {
             createCache(cm, com.netjob.app.domain.User.class.getName() + ".authorities");
             createCache(cm, com.netjob.app.domain.Valoracion.class.getName());
             createCache(cm, com.netjob.app.domain.Usuario.class.getName());
+            createCache(cm, com.netjob.app.domain.Servicio.class.getName());
+            createCache(cm, com.netjob.app.domain.Categoria.class.getName());
+            createCache(cm, com.netjob.app.domain.Servicio.class.getName() + ".categorias");
+            createCache(cm, com.netjob.app.domain.Contrato.class.getName());
+            createCache(cm, com.netjob.app.domain.Favorito.class.getName());
+            createCache(cm, com.netjob.app.domain.Mensaje.class.getName());
+            createCache(cm, com.netjob.app.domain.Conversacion.class.getName());
+            createCache(cm, com.netjob.app.domain.Usuario.class.getName() + ".conversacions");
+            createCache(cm, com.netjob.app.domain.Conversacion.class.getName() + ".usuarios");
+            createCache(cm, com.netjob.app.domain.Categoria.class.getName() + ".servicios");
             // jhipster-needle-ehcache-add-entry
         };
     }

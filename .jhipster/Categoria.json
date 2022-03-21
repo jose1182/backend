@@ -1,0 +1,25 @@
+{
+  "changelogDate": "20220321175925",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Categoria",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "servicio",
+      "otherEntityRelationshipName": "categoria",
+      "ownerSide": false,
+      "relationshipName": "servicio",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

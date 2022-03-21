@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IUser } from 'app/entities/user/user.model';
+import { IConversacion } from 'app/entities/conversacion/conversacion.model';
 
 export interface IUsuario {
   id?: number;
@@ -14,6 +15,7 @@ export interface IUsuario {
   fn?: dayjs.Dayjs;
   fechaRegistro?: dayjs.Dayjs | null;
   user?: IUser | null;
+  conversacions?: IConversacion[] | null;
 }
 
 export class Usuario implements IUsuario {
@@ -29,7 +31,8 @@ export class Usuario implements IUsuario {
     public profesion?: string | null,
     public fn?: dayjs.Dayjs,
     public fechaRegistro?: dayjs.Dayjs | null,
-    public user?: IUser | null
+    public user?: IUser | null,
+    public conversacions?: IConversacion[] | null
   ) {}
 }
 

@@ -1,7 +1,10 @@
 package com.netjob.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -14,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name = "usuario")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Usuario implements Serializable {
-// sfgdfgds
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -66,6 +69,16 @@ public class Usuario implements Serializable {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_usuario__conversacion",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "conversacion_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "usuarios" }, allowSetters = true)
+    private Set<Conversacion> conversacions = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -222,6 +235,31 @@ public class Usuario implements Serializable {
 
     public Usuario user(User user) {
         this.setUser(user);
+        return this;
+    }
+
+    public Set<Conversacion> getConversacions() {
+        return this.conversacions;
+    }
+
+    public void setConversacions(Set<Conversacion> conversacions) {
+        this.conversacions = conversacions;
+    }
+
+    public Usuario conversacions(Set<Conversacion> conversacions) {
+        this.setConversacions(conversacions);
+        return this;
+    }
+
+    public Usuario addConversacion(Conversacion conversacion) {
+        this.conversacions.add(conversacion);
+        conversacion.getUsuarios().add(this);
+        return this;
+    }
+
+    public Usuario removeConversacion(Conversacion conversacion) {
+        this.conversacions.remove(conversacion);
+        conversacion.getUsuarios().remove(this);
         return this;
     }
 

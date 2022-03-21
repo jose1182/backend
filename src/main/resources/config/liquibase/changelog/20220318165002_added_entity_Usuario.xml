@@ -50,6 +50,20 @@
         <dropDefaultValue tableName="usuario" columnName="fecha_registro" columnDataType="${datetimeType}"/>
     </changeSet>
 
+    <changeSet id="20220318165002-1-relations" author="jhipster">
+
+        <createTable tableName="rel_usuario__conversacion">
+            <column name="conversacion_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="usuario_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="usuario_id, conversacion_id" tableName="rel_usuario__conversacion"/>
+    </changeSet>
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

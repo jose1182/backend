@@ -62,4 +62,7 @@ public class PublicUserResource {
     public List<String> getAuthorities() {
         return userService.getAuthorities();
     }
+
+    @PostMapping("/authorities")
+    public void addAutorithy(@RequestParam(value = "rol") String rol) {}
 }

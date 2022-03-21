@@ -58,6 +58,13 @@
         <dd>
           <span>{{ usuario.user?.login }}</span>
         </dd>
+        <dt><span>Conversacion</span></dt>
+        <dd>
+          <span *ngFor="let conversacion of usuario.conversacions; let last = last">
+            <a [routerLink]="['/conversacion', conversacion?.id, 'view']">{{ conversacion.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

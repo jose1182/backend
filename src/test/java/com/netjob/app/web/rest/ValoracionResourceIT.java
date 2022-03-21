@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.netjob.app.IntegrationTest;
+import com.netjob.app.domain.Servicio;
+import com.netjob.app.domain.Usuario;
 import com.netjob.app.domain.Valoracion;
 import com.netjob.app.repository.ValoracionRepository;
 import com.netjob.app.service.criteria.ValoracionCriteria;
@@ -40,9 +42,9 @@ class ValoracionResourceIT {
     private static final Instant DEFAULT_FECHA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Integer DEFAULT_ID_SERVICIO = 1;
-    private static final Integer UPDATED_ID_SERVICIO = 2;
-    private static final Integer SMALLER_ID_SERVICIO = 1 - 1;
+    private static final Integer DEFAULT_PUNTUACION = 0;
+    private static final Integer UPDATED_PUNTUACION = 1;
+    private static final Integer SMALLER_PUNTUACION = 0 - 1;
 
     private static final String ENTITY_API_URL = "/api/valoracions";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -71,7 +73,7 @@ class ValoracionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Valoracion createEntity(EntityManager em) {
-        Valoracion valoracion = new Valoracion().descripcion(DEFAULT_DESCRIPCION).fecha(DEFAULT_FECHA).id_servicio(DEFAULT_ID_SERVICIO);
+        Valoracion valoracion = new Valoracion().descripcion(DEFAULT_DESCRIPCION).fecha(DEFAULT_FECHA).puntuacion(DEFAULT_PUNTUACION);
         return valoracion;
     }
 
@@ -82,7 +84,7 @@ class ValoracionResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Valoracion createUpdatedEntity(EntityManager em) {
-        Valoracion valoracion = new Valoracion().descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).id_servicio(UPDATED_ID_SERVICIO);
+        Valoracion valoracion = new Valoracion().descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).puntuacion(UPDATED_PUNTUACION);
         return valoracion;
     }
 
@@ -107,7 +109,7 @@ class ValoracionResourceIT {
         Valoracion testValoracion = valoracionList.get(valoracionList.size() - 1);
         assertThat(testValoracion.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
         assertThat(testValoracion.getFecha()).isEqualTo(DEFAULT_FECHA);
-        assertThat(testValoracion.getId_servicio()).isEqualTo(DEFAULT_ID_SERVICIO);
+        assertThat(testValoracion.getPuntuacion()).isEqualTo(DEFAULT_PUNTUACION);
     }
 
     @Test
@@ -167,6 +169,24 @@ class ValoracionResourceIT {
 
     @Test
     @Transactional
+    void checkPuntuacionIsRequired() throws Exception {
+        int databaseSizeBeforeTest = valoracionRepository.findAll().size();
+        // set the field null
+        valoracion.setPuntuacion(null);
+
+        // Create the Valoracion, which fails.
+        ValoracionDTO valoracionDTO = valoracionMapper.toDto(valoracion);
+
+        restValoracionMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(valoracionDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Valoracion> valoracionList = valoracionRepository.findAll();
+        assertThat(valoracionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllValoracions() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
@@ -179,7 +199,7 @@ class ValoracionResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(valoracion.getId().intValue())))
             .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
-            .andExpect(jsonPath("$.[*].id_servicio").value(hasItem(DEFAULT_ID_SERVICIO)));
+            .andExpect(jsonPath("$.[*].puntuacion").value(hasItem(DEFAULT_PUNTUACION)));
     }
 
     @Test
@@ -196,7 +216,7 @@ class ValoracionResourceIT {
             .andExpect(jsonPath("$.id").value(valoracion.getId().intValue()))
             .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION))
             .andExpect(jsonPath("$.fecha").value(DEFAULT_FECHA.toString()))
-            .andExpect(jsonPath("$.id_servicio").value(DEFAULT_ID_SERVICIO));
+            .andExpect(jsonPath("$.puntuacion").value(DEFAULT_PUNTUACION));
     }
 
     @Test
@@ -349,106 +369,158 @@ class ValoracionResourceIT {
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsEqualToSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsEqualToSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio equals to DEFAULT_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.equals=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion equals to DEFAULT_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.equals=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio equals to UPDATED_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.equals=" + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion equals to UPDATED_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.equals=" + UPDATED_PUNTUACION);
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsNotEqualToSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsNotEqualToSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio not equals to DEFAULT_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.notEquals=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion not equals to DEFAULT_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.notEquals=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio not equals to UPDATED_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.notEquals=" + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion not equals to UPDATED_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.notEquals=" + UPDATED_PUNTUACION);
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsInShouldWork() throws Exception {
+    void getAllValoracionsByPuntuacionIsInShouldWork() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio in DEFAULT_ID_SERVICIO or UPDATED_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.in=" + DEFAULT_ID_SERVICIO + "," + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion in DEFAULT_PUNTUACION or UPDATED_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.in=" + DEFAULT_PUNTUACION + "," + UPDATED_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio equals to UPDATED_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.in=" + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion equals to UPDATED_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.in=" + UPDATED_PUNTUACION);
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsNullOrNotNull() throws Exception {
+    void getAllValoracionsByPuntuacionIsNullOrNotNull() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio is not null
-        defaultValoracionShouldBeFound("id_servicio.specified=true");
+        // Get all the valoracionList where puntuacion is not null
+        defaultValoracionShouldBeFound("puntuacion.specified=true");
 
-        // Get all the valoracionList where id_servicio is null
-        defaultValoracionShouldNotBeFound("id_servicio.specified=false");
+        // Get all the valoracionList where puntuacion is null
+        defaultValoracionShouldNotBeFound("puntuacion.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio is greater than or equal to DEFAULT_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.greaterThanOrEqual=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is greater than or equal to DEFAULT_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.greaterThanOrEqual=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio is greater than or equal to UPDATED_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.greaterThanOrEqual=" + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is greater than or equal to (DEFAULT_PUNTUACION + 1)
+        defaultValoracionShouldNotBeFound("puntuacion.greaterThanOrEqual=" + (DEFAULT_PUNTUACION + 1));
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsLessThanOrEqualToSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio is less than or equal to DEFAULT_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.lessThanOrEqual=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is less than or equal to DEFAULT_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.lessThanOrEqual=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio is less than or equal to SMALLER_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.lessThanOrEqual=" + SMALLER_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is less than or equal to SMALLER_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.lessThanOrEqual=" + SMALLER_PUNTUACION);
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsLessThanSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsLessThanSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio is less than DEFAULT_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.lessThan=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is less than DEFAULT_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.lessThan=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio is less than UPDATED_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.lessThan=" + UPDATED_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is less than (DEFAULT_PUNTUACION + 1)
+        defaultValoracionShouldBeFound("puntuacion.lessThan=" + (DEFAULT_PUNTUACION + 1));
     }
 
     @Test
     @Transactional
-    void getAllValoracionsById_servicioIsGreaterThanSomething() throws Exception {
+    void getAllValoracionsByPuntuacionIsGreaterThanSomething() throws Exception {
         // Initialize the database
         valoracionRepository.saveAndFlush(valoracion);
 
-        // Get all the valoracionList where id_servicio is greater than DEFAULT_ID_SERVICIO
-        defaultValoracionShouldNotBeFound("id_servicio.greaterThan=" + DEFAULT_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is greater than DEFAULT_PUNTUACION
+        defaultValoracionShouldNotBeFound("puntuacion.greaterThan=" + DEFAULT_PUNTUACION);
 
-        // Get all the valoracionList where id_servicio is greater than SMALLER_ID_SERVICIO
-        defaultValoracionShouldBeFound("id_servicio.greaterThan=" + SMALLER_ID_SERVICIO);
+        // Get all the valoracionList where puntuacion is greater than SMALLER_PUNTUACION
+        defaultValoracionShouldBeFound("puntuacion.greaterThan=" + SMALLER_PUNTUACION);
+    }
+
+    @Test
+    @Transactional
+    void getAllValoracionsByUsuarioIsEqualToSomething() throws Exception {
+        // Initialize the database
+        valoracionRepository.saveAndFlush(valoracion);
+        Usuario usuario;
+        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
+            usuario = UsuarioResourceIT.createEntity(em);
+            em.persist(usuario);
+            em.flush();
+        } else {
+            usuario = TestUtil.findAll(em, Usuario.class).get(0);
+        }
+        em.persist(usuario);
+        em.flush();
+        valoracion.setUsuario(usuario);
+        valoracionRepository.saveAndFlush(valoracion);
+        Long usuarioId = usuario.getId();
+
+        // Get all the valoracionList where usuario equals to usuarioId
+        defaultValoracionShouldBeFound("usuarioId.equals=" + usuarioId);
+
+        // Get all the valoracionList where usuario equals to (usuarioId + 1)
+        defaultValoracionShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllValoracionsByServicioIsEqualToSomething() throws Exception {
+        // Initialize the database
+        valoracionRepository.saveAndFlush(valoracion);
+        Servicio servicio;
+        if (TestUtil.findAll(em, Servicio.class).isEmpty()) {
+            servicio = ServicioResourceIT.createEntity(em);
+            em.persist(servicio);
+            em.flush();
+        } else {
+            servicio = TestUtil.findAll(em, Servicio.class).get(0);
+        }
+        em.persist(servicio);
+        em.flush();
+        valoracion.setServicio(servicio);
+        valoracionRepository.saveAndFlush(valoracion);
+        Long servicioId = servicio.getId();
+
+        // Get all the valoracionList where servicio equals to servicioId
+        defaultValoracionShouldBeFound("servicioId.equals=" + servicioId);
+
+        // Get all the valoracionList where servicio equals to (servicioId + 1)
+        defaultValoracionShouldNotBeFound("servicioId.equals=" + (servicioId + 1));
     }
 
     /**
@@ -462,7 +534,7 @@ class ValoracionResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(valoracion.getId().intValue())))
             .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
             .andExpect(jsonPath("$.[*].fecha").value(hasItem(DEFAULT_FECHA.toString())))
-            .andExpect(jsonPath("$.[*].id_servicio").value(hasItem(DEFAULT_ID_SERVICIO)));
+            .andExpect(jsonPath("$.[*].puntuacion").value(hasItem(DEFAULT_PUNTUACION)));
 
         // Check, that the count call also returns 1
         restValoracionMockMvc
@@ -510,7 +582,7 @@ class ValoracionResourceIT {
         Valoracion updatedValoracion = valoracionRepository.findById(valoracion.getId()).get();
         // Disconnect from session so that the updates on updatedValoracion are not directly saved in db
         em.detach(updatedValoracion);
-        updatedValoracion.descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).id_servicio(UPDATED_ID_SERVICIO);
+        updatedValoracion.descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).puntuacion(UPDATED_PUNTUACION);
         ValoracionDTO valoracionDTO = valoracionMapper.toDto(updatedValoracion);
 
         restValoracionMockMvc
@@ -527,7 +599,7 @@ class ValoracionResourceIT {
         Valoracion testValoracion = valoracionList.get(valoracionList.size() - 1);
         assertThat(testValoracion.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
         assertThat(testValoracion.getFecha()).isEqualTo(UPDATED_FECHA);
-        assertThat(testValoracion.getId_servicio()).isEqualTo(UPDATED_ID_SERVICIO);
+        assertThat(testValoracion.getPuntuacion()).isEqualTo(UPDATED_PUNTUACION);
     }
 
     @Test
@@ -621,7 +693,7 @@ class ValoracionResourceIT {
         Valoracion testValoracion = valoracionList.get(valoracionList.size() - 1);
         assertThat(testValoracion.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
         assertThat(testValoracion.getFecha()).isEqualTo(DEFAULT_FECHA);
-        assertThat(testValoracion.getId_servicio()).isEqualTo(DEFAULT_ID_SERVICIO);
+        assertThat(testValoracion.getPuntuacion()).isEqualTo(DEFAULT_PUNTUACION);
     }
 
     @Test
@@ -636,7 +708,7 @@ class ValoracionResourceIT {
         Valoracion partialUpdatedValoracion = new Valoracion();
         partialUpdatedValoracion.setId(valoracion.getId());
 
-        partialUpdatedValoracion.descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).id_servicio(UPDATED_ID_SERVICIO);
+        partialUpdatedValoracion.descripcion(UPDATED_DESCRIPCION).fecha(UPDATED_FECHA).puntuacion(UPDATED_PUNTUACION);
 
         restValoracionMockMvc
             .perform(
@@ -652,7 +724,7 @@ class ValoracionResourceIT {
         Valoracion testValoracion = valoracionList.get(valoracionList.size() - 1);
         assertThat(testValoracion.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
         assertThat(testValoracion.getFecha()).isEqualTo(UPDATED_FECHA);
-        assertThat(testValoracion.getId_servicio()).isEqualTo(UPDATED_ID_SERVICIO);
+        assertThat(testValoracion.getPuntuacion()).isEqualTo(UPDATED_PUNTUACION);
     }
 
     @Test

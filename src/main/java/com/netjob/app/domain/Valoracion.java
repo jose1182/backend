@@ -1,5 +1,6 @@
 package com.netjob.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
@@ -31,8 +32,19 @@ public class Valoracion implements Serializable {
     @Column(name = "fecha", nullable = false)
     private Instant fecha;
 
-    @Column(name = "id_servicio")
-    private Integer id_servicio;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 5)
+    @Column(name = "puntuacion", nullable = false)
+    private Integer puntuacion;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "user", "conversacions" }, allowSetters = true)
+    private Usuario usuario;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "usuario", "categorias" }, allowSetters = true)
+    private Servicio servicio;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -75,17 +87,43 @@ public class Valoracion implements Serializable {
         this.fecha = fecha;
     }
 
-    public Integer getId_servicio() {
-        return this.id_servicio;
+    public Integer getPuntuacion() {
+        return this.puntuacion;
     }
 
-    public Valoracion id_servicio(Integer id_servicio) {
-        this.setId_servicio(id_servicio);
+    public Valoracion puntuacion(Integer puntuacion) {
+        this.setPuntuacion(puntuacion);
         return this;
     }
 
-    public void setId_servicio(Integer id_servicio) {
-        this.id_servicio = id_servicio;
+    public void setPuntuacion(Integer puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Valoracion usuario(Usuario usuario) {
+        this.setUsuario(usuario);
+        return this;
+    }
+
+    public Servicio getServicio() {
+        return this.servicio;
+    }
+
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
+    }
+
+    public Valoracion servicio(Servicio servicio) {
+        this.setServicio(servicio);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -114,7 +152,7 @@ public class Valoracion implements Serializable {
             "id=" + getId() +
             ", descripcion='" + getDescripcion() + "'" +
             ", fecha='" + getFecha() + "'" +
-            ", id_servicio=" + getId_servicio() +
+            ", puntuacion=" + getPuntuacion() +
             "}";
     }
 }

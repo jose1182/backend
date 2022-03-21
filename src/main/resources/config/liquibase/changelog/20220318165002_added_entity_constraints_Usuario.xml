@@ -13,5 +13,17 @@
                                  constraintName="fk_usuario__user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="usuario_id"
+                                 baseTableName="rel_usuario__conversacion"
+                                 constraintName="fk_rel_usuario__conversacion__usuario_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="usuario"/>
+
+        <addForeignKeyConstraint baseColumnNames="conversacion_id"
+                                 baseTableName="rel_usuario__conversacion"
+                                 constraintName="fk_rel_usuario__conversacion__conversacion_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="conversacion"/>
     </changeSet>
 </databaseChangeLog>

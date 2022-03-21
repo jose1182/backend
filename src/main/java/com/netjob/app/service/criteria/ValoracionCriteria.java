@@ -31,7 +31,11 @@ public class ValoracionCriteria implements Serializable, Criteria {
 
     private InstantFilter fecha;
 
-    private IntegerFilter id_servicio;
+    private IntegerFilter puntuacion;
+
+    private LongFilter usuarioId;
+
+    private LongFilter servicioId;
 
     private Boolean distinct;
 
@@ -41,7 +45,9 @@ public class ValoracionCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.descripcion = other.descripcion == null ? null : other.descripcion.copy();
         this.fecha = other.fecha == null ? null : other.fecha.copy();
-        this.id_servicio = other.id_servicio == null ? null : other.id_servicio.copy();
+        this.puntuacion = other.puntuacion == null ? null : other.puntuacion.copy();
+        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
+        this.servicioId = other.servicioId == null ? null : other.servicioId.copy();
         this.distinct = other.distinct;
     }
 
@@ -95,19 +101,49 @@ public class ValoracionCriteria implements Serializable, Criteria {
         this.fecha = fecha;
     }
 
-    public IntegerFilter getId_servicio() {
-        return id_servicio;
+    public IntegerFilter getPuntuacion() {
+        return puntuacion;
     }
 
-    public IntegerFilter id_servicio() {
-        if (id_servicio == null) {
-            id_servicio = new IntegerFilter();
+    public IntegerFilter puntuacion() {
+        if (puntuacion == null) {
+            puntuacion = new IntegerFilter();
         }
-        return id_servicio;
+        return puntuacion;
     }
 
-    public void setId_servicio(IntegerFilter id_servicio) {
-        this.id_servicio = id_servicio;
+    public void setPuntuacion(IntegerFilter puntuacion) {
+        this.puntuacion = puntuacion;
+    }
+
+    public LongFilter getUsuarioId() {
+        return usuarioId;
+    }
+
+    public LongFilter usuarioId() {
+        if (usuarioId == null) {
+            usuarioId = new LongFilter();
+        }
+        return usuarioId;
+    }
+
+    public void setUsuarioId(LongFilter usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public LongFilter getServicioId() {
+        return servicioId;
+    }
+
+    public LongFilter servicioId() {
+        if (servicioId == null) {
+            servicioId = new LongFilter();
+        }
+        return servicioId;
+    }
+
+    public void setServicioId(LongFilter servicioId) {
+        this.servicioId = servicioId;
     }
 
     public Boolean getDistinct() {
@@ -131,14 +167,16 @@ public class ValoracionCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(descripcion, that.descripcion) &&
             Objects.equals(fecha, that.fecha) &&
-            Objects.equals(id_servicio, that.id_servicio) &&
+            Objects.equals(puntuacion, that.puntuacion) &&
+            Objects.equals(usuarioId, that.usuarioId) &&
+            Objects.equals(servicioId, that.servicioId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descripcion, fecha, id_servicio, distinct);
+        return Objects.hash(id, descripcion, fecha, puntuacion, usuarioId, servicioId, distinct);
     }
 
     // prettier-ignore
@@ -148,7 +186,9 @@ public class ValoracionCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (descripcion != null ? "descripcion=" + descripcion + ", " : "") +
             (fecha != null ? "fecha=" + fecha + ", " : "") +
-            (id_servicio != null ? "id_servicio=" + id_servicio + ", " : "") +
+            (puntuacion != null ? "puntuacion=" + puntuacion + ", " : "") +
+            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
+            (servicioId != null ? "servicioId=" + servicioId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -27,7 +27,7 @@ describe('Valoracion Service', () => {
       id: 0,
       descripcion: 'AAAAAAA',
       fecha: currentDate,
-      id_servicio: 0,
+      puntuacion: 0,
     };
   });
 
@@ -76,7 +76,7 @@ describe('Valoracion Service', () => {
           id: 1,
           descripcion: 'BBBBBB',
           fecha: currentDate.format(DATE_TIME_FORMAT),
-          id_servicio: 1,
+          puntuacion: 1,
         },
         elemDefault
       );
@@ -125,7 +125,7 @@ describe('Valoracion Service', () => {
           id: 1,
           descripcion: 'BBBBBB',
           fecha: currentDate.format(DATE_TIME_FORMAT),
-          id_servicio: 1,
+          puntuacion: 1,
         },
         elemDefault
       );

@@ -131,6 +131,25 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label for="field_conversacions">Conversacion</label>
+          <select
+            class="form-control"
+            id="field_conversacions"
+            data-cy="conversacion"
+            multiple
+            name="conversacions"
+            formControlName="conversacions"
+          >
+            <option
+              [ngValue]="getSelectedConversacion(conversacionOption, editForm.get('conversacions')!.value)"
+              *ngFor="let conversacionOption of conversacionsSharedCollection; trackBy: trackConversacionById"
+            >
+              {{ conversacionOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

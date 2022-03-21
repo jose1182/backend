@@ -49,6 +49,8 @@ public class UsuarioCriteria implements Serializable, Criteria {
 
     private LongFilter userId;
 
+    private LongFilter conversacionId;
+
     private Boolean distinct;
 
     public UsuarioCriteria() {}
@@ -66,6 +68,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.fn = other.fn == null ? null : other.fn.copy();
         this.fechaRegistro = other.fechaRegistro == null ? null : other.fechaRegistro.copy();
         this.userId = other.userId == null ? null : other.userId.copy();
+        this.conversacionId = other.conversacionId == null ? null : other.conversacionId.copy();
         this.distinct = other.distinct;
     }
 
@@ -254,6 +257,21 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.userId = userId;
     }
 
+    public LongFilter getConversacionId() {
+        return conversacionId;
+    }
+
+    public LongFilter conversacionId() {
+        if (conversacionId == null) {
+            conversacionId = new LongFilter();
+        }
+        return conversacionId;
+    }
+
+    public void setConversacionId(LongFilter conversacionId) {
+        this.conversacionId = conversacionId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -284,6 +302,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
             Objects.equals(fn, that.fn) &&
             Objects.equals(fechaRegistro, that.fechaRegistro) &&
             Objects.equals(userId, that.userId) &&
+            Objects.equals(conversacionId, that.conversacionId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -303,6 +322,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
             fn,
             fechaRegistro,
             userId,
+            conversacionId,
             distinct
         );
     }
@@ -323,6 +343,7 @@ public class UsuarioCriteria implements Serializable, Criteria {
             (fn != null ? "fn=" + fn + ", " : "") +
             (fechaRegistro != null ? "fechaRegistro=" + fechaRegistro + ", " : "") +
             (userId != null ? "userId=" + userId + ", " : "") +
+            (conversacionId != null ? "conversacionId=" + conversacionId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -1,0 +1,201 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-servicio-heading" data-cy="ServicioCreateUpdateHeading">Create or edit a Servicio</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_titulo">Titulo</label>
+          <input type="text" class="form-control" name="titulo" id="field_titulo" data-cy="titulo" formControlName="titulo" />
+          <div *ngIf="editForm.get('titulo')!.invalid && (editForm.get('titulo')!.dirty || editForm.get('titulo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('titulo')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('titulo')?.errors?.maxlength">
+              This field cannot be longer than 60 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_descripcion">Descripcion</label>
+          <input
+            type="text"
+            class="form-control"
+            name="descripcion"
+            id="field_descripcion"
+            data-cy="descripcion"
+            formControlName="descripcion"
+          />
+          <div *ngIf="editForm.get('descripcion')!.invalid && (editForm.get('descripcion')!.dirty || editForm.get('descripcion')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('descripcion')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_disponibilidad">Disponibilidad</label>
+          <select
+            class="form-control"
+            name="disponibilidad"
+            formControlName="disponibilidad"
+            id="field_disponibilidad"
+            data-cy="disponibilidad"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let disponibilidad of disponibilidadValues" [value]="disponibilidad">disponibilidad</option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('disponibilidad')!.invalid && (editForm.get('disponibilidad')!.dirty || editForm.get('disponibilidad')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('disponibilidad')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_preciohora">Preciohora</label>
+          <input
+            type="number"
+            class="form-control"
+            name="preciohora"
+            id="field_preciohora"
+            data-cy="preciohora"
+            formControlName="preciohora"
+          />
+          <div *ngIf="editForm.get('preciohora')!.invalid && (editForm.get('preciohora')!.dirty || editForm.get('preciohora')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('preciohora')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('preciohora')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('preciohora')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_preciotraslado">Preciotraslado</label>
+          <input
+            type="number"
+            class="form-control"
+            name="preciotraslado"
+            id="field_preciotraslado"
+            data-cy="preciotraslado"
+            formControlName="preciotraslado"
+          />
+          <div
+            *ngIf="
+              editForm.get('preciotraslado')!.invalid && (editForm.get('preciotraslado')!.dirty || editForm.get('preciotraslado')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('preciotraslado')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('preciotraslado')?.errors?.min">
+              This field should be at least 0.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('preciotraslado')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_fechacreacion">Fechacreacion</label>
+          <div class="d-flex">
+            <input
+              id="field_fechacreacion"
+              data-cy="fechacreacion"
+              type="datetime-local"
+              class="form-control"
+              name="fechacreacion"
+              formControlName="fechacreacion"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="
+              editForm.get('fechacreacion')!.invalid && (editForm.get('fechacreacion')!.dirty || editForm.get('fechacreacion')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('fechacreacion')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('fechacreacion')?.errors?.ZonedDateTimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_fechaactualizacion">Fechaactualizacion</label>
+          <div class="d-flex">
+            <input
+              id="field_fechaactualizacion"
+              data-cy="fechaactualizacion"
+              type="datetime-local"
+              class="form-control"
+              name="fechaactualizacion"
+              formControlName="fechaactualizacion"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="
+              editForm.get('fechaactualizacion')!.invalid &&
+              (editForm.get('fechaactualizacion')!.dirty || editForm.get('fechaactualizacion')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('fechaactualizacion')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('fechaactualizacion')?.errors?.ZonedDateTimelocal">
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_usuario">Usuario</label>
+          <select class="form-control" id="field_usuario" data-cy="usuario" name="usuario" formControlName="usuario">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="usuarioOption.id === editForm.get('usuario')!.value?.id ? editForm.get('usuario')!.value : usuarioOption"
+              *ngFor="let usuarioOption of usuariosSharedCollection; trackBy: trackUsuarioById"
+            >
+              {{ usuarioOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="field_categorias">Categoria</label>
+          <select class="form-control" id="field_categorias" data-cy="categoria" multiple name="categorias" formControlName="categorias">
+            <option
+              [ngValue]="getSelectedCategoria(categoriaOption, editForm.get('categorias')!.value)"
+              *ngFor="let categoriaOption of categoriasSharedCollection; trackBy: trackCategoriaById"
+            >
+              {{ categoriaOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

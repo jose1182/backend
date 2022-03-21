@@ -1,0 +1,69 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="servicio">
+      <h2 data-cy="servicioDetailsHeading"><span>Servicio</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ servicio.id }}</span>
+        </dd>
+        <dt><span>Titulo</span></dt>
+        <dd>
+          <span>{{ servicio.titulo }}</span>
+        </dd>
+        <dt><span>Descripcion</span></dt>
+        <dd>
+          <span>{{ servicio.descripcion }}</span>
+        </dd>
+        <dt><span>Disponibilidad</span></dt>
+        <dd>
+          <span>{{ servicio.disponibilidad }}</span>
+        </dd>
+        <dt><span>Preciohora</span></dt>
+        <dd>
+          <span>{{ servicio.preciohora }}</span>
+        </dd>
+        <dt><span>Preciotraslado</span></dt>
+        <dd>
+          <span>{{ servicio.preciotraslado }}</span>
+        </dd>
+        <dt><span>Fechacreacion</span></dt>
+        <dd>
+          <span>{{ servicio.fechacreacion | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Fechaactualizacion</span></dt>
+        <dd>
+          <span>{{ servicio.fechaactualizacion | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <div *ngIf="servicio.usuario">
+            <a [routerLink]="['/usuario', servicio.usuario?.id, 'view']">{{ servicio.usuario?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Categoria</span></dt>
+        <dd>
+          <span *ngFor="let categoria of servicio.categorias; let last = last">
+            <a [routerLink]="['/categoria', categoria?.id, 'view']">{{ categoria.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/servicio', servicio.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

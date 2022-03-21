@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="favorito">
+      <h2 data-cy="favoritoDetailsHeading"><span>Favorito</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ favorito.id }}</span>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <div *ngIf="favorito.usuario">
+            <a [routerLink]="['/usuario', favorito.usuario?.id, 'view']">{{ favorito.usuario?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Servicio</span></dt>
+        <dd>
+          <div *ngIf="favorito.servicio">
+            <a [routerLink]="['/servicio', favorito.servicio?.id, 'view']">{{ favorito.servicio?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/favorito', favorito.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

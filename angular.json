@@ -108,6 +108,7 @@
   },
   "defaultProject": "netjob",
   "cli": {
+    "analytics": "fe312c66-e3e6-41e3-8a1a-a15b3ebc8b82",
     "cache": {
       "enabled": true,
       "path": "./target/",

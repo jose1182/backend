@@ -15,14 +15,30 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "id_servicio",
-      "fieldType": "Integer"
+      "fieldName": "puntuacion",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min", "max"],
+      "fieldValidateRulesMax": "5",
+      "fieldValidateRulesMin": 0
     }
   ],
   "jpaMetamodelFiltering": true,
   "name": "Valoracion",
   "pagination": "no",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "usuario",
+      "relationshipName": "usuario",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "servicio",
+      "relationshipName": "servicio",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "service": "serviceClass"
 }

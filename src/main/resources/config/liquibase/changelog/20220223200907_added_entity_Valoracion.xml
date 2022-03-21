@@ -20,7 +20,13 @@
             <column name="fecha" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="id_servicio" type="integer">
+            <column name="puntuacion" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="usuario_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="servicio_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -47,7 +53,7 @@
             <column name="id" type="numeric"/>
             <column name="descripcion" type="string"/>
             <column name="fecha" type="date"/>
-            <column name="id_servicio" type="numeric"/>
+            <column name="puntuacion" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
