@@ -191,6 +191,7 @@ public class UsuarioDTO implements Serializable {
             ", fechaRegistro='" + getFechaRegistro() + "'" +
             ", user=" + getUser() +
             ", conversacions=" + getConversacions() +
+            
             "}";
     }
 }

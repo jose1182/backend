@@ -2,11 +2,14 @@ package com.netjob.app.web.rest;
 
 import com.netjob.app.domain.User;
 import com.netjob.app.repository.UserRepository;
+import com.netjob.app.repository.UsuarioRepository;
 import com.netjob.app.security.SecurityUtils;
 import com.netjob.app.service.MailService;
 import com.netjob.app.service.UserService;
+import com.netjob.app.service.UsuarioService;
 import com.netjob.app.service.dto.AdminUserDTO;
 import com.netjob.app.service.dto.PasswordChangeDTO;
+import com.netjob.app.service.mapper.UsuarioMapper;
 import com.netjob.app.web.rest.errors.*;
 import com.netjob.app.web.rest.vm.KeyAndPasswordVM;
 import com.netjob.app.web.rest.vm.ManagedUserVM;

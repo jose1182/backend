@@ -46,7 +46,7 @@ management:
           ]
   endpoint:
     health:
-      show-details: when_authorized
+      show-details: when-authorized
       roles: 'ROLE_ADMIN'
       probes:
         enabled: true
@@ -135,7 +135,7 @@ spring:
     allow-circular-references: true
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: ant-path-matcher
   task:
     execution:
       thread-name-prefix: netjob-task-
@@ -185,7 +185,7 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: netjob@localhost
+    from: netjobproyecto@gmail
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**

@@ -1,0 +1,262 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="Usuario (generated)" id="1648057021149-1">
+        <createTable tableName="categoria">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="categoriaPK"/>
+            </column>
+            <column name="nombre" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-2">
+        <createTable tableName="contrato">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="contratoPK"/>
+            </column>
+            <column name="fecha" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preciofinal" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="servicio_id" type="BIGINT"/>
+            <column name="usuario_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-3">
+        <createTable tableName="conversacion">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="conversacionPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-4">
+        <createTable tableName="favorito">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="favoritoPK"/>
+            </column>
+            <column name="servicio_id" type="BIGINT"/>
+            <column name="usuario_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-5">
+        <createTable tableName="jhi_authority">
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_authorityPK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-6">
+        <createTable tableName="jhi_user">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_userPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="TIMESTAMP"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="TIMESTAMP"/>
+            <column name="activated" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="activation_key" type="VARCHAR(20)"/>
+            <column name="email" type="VARCHAR(254)"/>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="image_url" type="VARCHAR(256)"/>
+            <column name="lang_key" type="VARCHAR(10)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password_hash" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="TIMESTAMP"/>
+            <column name="reset_key" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-7">
+        <createTable tableName="jhi_user_authority">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="authority_name" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-8">
+        <createTable tableName="mensaje">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="mensajePK"/>
+            </column>
+            <column name="fecha" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="texto" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="conversacion_id" type="BIGINT"/>
+            <column name="emisor_id" type="BIGINT"/>
+            <column name="receptor_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-9">
+        <createTable tableName="rel_servicio__categoria">
+            <column name="servicio_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="categoria_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-10">
+        <createTable tableName="rel_usuario__conversacion">
+            <column name="usuario_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="conversacion_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-11">
+        <createTable tableName="servicio">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="servicioPK"/>
+            </column>
+            <column name="descripcion" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disponibilidad" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fechaactualizacion" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fechacreacion" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preciohora" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preciotraslado" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="titulo" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="usuario_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-12">
+        <createTable tableName="usuario">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="usuarioPK"/>
+            </column>
+            <column name="apellidos" type="VARCHAR(50)"/>
+            <column name="correo" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="direccion" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dni" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fecha_registro" type="TIMESTAMP"/>
+            <column name="fn" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="localidad" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nombre" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="profesion" type="VARCHAR(255)"/>
+            <column name="provincia" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-13">
+        <createTable tableName="valoracion">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="valoracionPK"/>
+            </column>
+            <column name="descripcion" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fecha" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="puntuacion" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="servicio_id" type="BIGINT"/>
+            <column name="usuario_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-14">
+        <addUniqueConstraint columnNames="email" constraintName="UC_JHI_USEREMAIL_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-15">
+        <addUniqueConstraint columnNames="login" constraintName="UC_JHI_USERLOGIN_COL" tableName="jhi_user"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-16">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-17">
+        <addForeignKeyConstraint baseColumnNames="servicio_id" baseTableName="contrato" constraintName="FK2bhc8ac94id16epf748w6of52" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="servicio" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-18">
+        <addForeignKeyConstraint baseColumnNames="usuario_id" baseTableName="servicio" constraintName="FK2s6css02x8ni2ybaiu3kcahh1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-19">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-20">
+        <addForeignKeyConstraint baseColumnNames="emisor_id" baseTableName="mensaje" constraintName="FK9iju1ryvmblhnq7cilb3mqvg0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-21">
+        <addForeignKeyConstraint baseColumnNames="usuario_id" baseTableName="valoracion" constraintName="FK9n4htv6h6qda5rsg5mq1462" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-22">
+        <addForeignKeyConstraint baseColumnNames="servicio_id" baseTableName="valoracion" constraintName="FKb9x3dqwt8q8rnalg22dj2huk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="servicio" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-23">
+        <addForeignKeyConstraint baseColumnNames="servicio_id" baseTableName="rel_servicio__categoria" constraintName="FKbqbnic878y55kl9vqm73hl03p" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="servicio" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-24">
+        <addForeignKeyConstraint baseColumnNames="receptor_id" baseTableName="mensaje" constraintName="FKd81fr80tl1h4c2j1k13mgfmau" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-25">
+        <addForeignKeyConstraint baseColumnNames="usuario_id" baseTableName="rel_usuario__conversacion" constraintName="FKf9kjqf5op3c1tlroqiom914rq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-26">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="usuario" constraintName="FKgdcaawo8iyrxh4bldy2cddml9" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-27">
+        <addForeignKeyConstraint baseColumnNames="conversacion_id" baseTableName="mensaje" constraintName="FKhttupgl7j8cb7pspmues7kgac" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="conversacion" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-28">
+        <addForeignKeyConstraint baseColumnNames="usuario_id" baseTableName="contrato" constraintName="FKjk83wy5pq0a7hufodligiop2k" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-29">
+        <addForeignKeyConstraint baseColumnNames="conversacion_id" baseTableName="rel_usuario__conversacion" constraintName="FKp13buvg83mnkoux26mwb2cv0p" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="conversacion" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-30">
+        <addForeignKeyConstraint baseColumnNames="servicio_id" baseTableName="favorito" constraintName="FKsl8n2otxnxmvfugtjf9tay7au" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="servicio" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-31">
+        <addForeignKeyConstraint baseColumnNames="categoria_id" baseTableName="rel_servicio__categoria" constraintName="FKspaauo5isiyds5hv0jmlcnn8q" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="categoria" validate="true"/>
+    </changeSet>
+    <changeSet author="Usuario (generated)" id="1648057021149-32">
+        <addForeignKeyConstraint baseColumnNames="usuario_id" baseTableName="favorito" constraintName="FKtexs274tw5tyvj5uowwooa1fw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="usuario" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

@@ -3,8 +3,10 @@ package com.netjob.app.service;
 import com.netjob.app.config.Constants;
 import com.netjob.app.domain.Authority;
 import com.netjob.app.domain.User;
+import com.netjob.app.domain.Usuario;
 import com.netjob.app.repository.AuthorityRepository;
 import com.netjob.app.repository.UserRepository;
+import com.netjob.app.repository.UsuarioRepository;
 import com.netjob.app.security.AuthoritiesConstants;
 import com.netjob.app.security.SecurityUtils;
 import com.netjob.app.service.dto.AdminUserDTO;
@@ -35,6 +37,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UsuarioRepository usuarioRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -45,12 +49,14 @@ public class UserService {
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        UsuarioRepository usuarioRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -132,6 +138,19 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        Usuario usuario = new Usuario();
+        usuario.setUser(newUser);
+        usuario.setNombre(userDTO.getFirstName() != null ? userDTO.getFirstName() : "");
+        usuario.setApellidos(userDTO.getLastName() != null ? userDTO.getLastName() : "");
+        usuario.setCorreo(userDTO.getEmail() != null ? userDTO.getEmail() : "");
+        usuario.setDni("12345678A");
+        usuario.setDireccion("");
+        usuario.setLocalidad("");
+        usuario.setProvincia("");
+        usuario.setProfesion("");
+        usuario.setFn(Instant.now());
+        usuarioRepository.save(usuario);
+
         return newUser;
     }
 
@@ -139,6 +158,8 @@ public class UserService {
         if (existingUser.isActivated()) {
             return false;
         }
+
+        usuarioRepository.deleteById(existingUser.getId());
         userRepository.delete(existingUser);
         userRepository.flush();
         this.clearUserCaches(existingUser);

@@ -68,6 +68,7 @@ public class UsuarioResource {
         if (Objects.isNull(usuarioDTO.getUser())) {
             throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
+
         UsuarioDTO result = usuarioService.save(usuarioDTO);
         return ResponseEntity
             .created(new URI("/api/usuarios/" + result.getId()))
