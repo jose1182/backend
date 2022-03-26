@@ -148,7 +148,8 @@ public class UserService {
         usuario.setLocalidad("");
         usuario.setProvincia("");
         usuario.setProfesion("");
-        usuario.setFn(Instant.now());
+
+        usuario.setFechaRegistro(Instant.now());
         usuarioRepository.save(usuario);
 
         return newUser;
