@@ -77,4 +77,9 @@ public class ServicioServiceImpl implements ServicioService {
         log.debug("Request to delete Servicio : {}", id);
         servicioRepository.deleteById(id);
     }
+
+    @Override
+    public Page<ServicioDTO> findAllByUsuario_id(Long userId, Pageable pageable) {
+        return servicioRepository.findAllByUsuario_id(userId, pageable).map(servicioMapper::toDto);
+    }
 }

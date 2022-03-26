@@ -25,4 +25,6 @@ public interface ServicioRepository extends JpaRepository<Servicio, Long>, JpaSp
 
     @Query("select servicio from Servicio servicio left join fetch servicio.categorias where servicio.id =:id")
     Optional<Servicio> findOneWithEagerRelationships(@Param("id") Long id);
+
+    Page<Servicio> findAllByUsuario_id(Long userId, Pageable pageable);
 }
