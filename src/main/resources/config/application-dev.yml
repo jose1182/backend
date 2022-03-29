@@ -47,17 +47,18 @@ spring:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
+    drop-first: true
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: netjobproyecto@gmail.com
-    password: distincion
+    host: smtp.mailtrap.io
+    port: 465
+    username: 153b353548249f #Replace this field with your Gmail username.
+    password: 8d056dad561ada #Replace this field with your Gmail password/App password.
     protocol: smtp
     tls: true
     properties.mail.smtp:
       auth: true
       starttls.enable: true
-      ssl.trust: smtp.gmail.com
+      ssl.trust: smtp.mailtrap.io
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:

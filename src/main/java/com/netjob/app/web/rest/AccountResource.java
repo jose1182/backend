@@ -16,6 +16,7 @@ import com.netjob.app.web.rest.vm.ManagedUserVM;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import liquibase.pro.packaged.iF;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,14 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
+
+        /**
+         * Set default language if in request dont have any.
+         */
+        if (managedUserVM.getLangKey() == null) {
+            managedUserVM.setLangKey("es");
+        }
+
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
     }

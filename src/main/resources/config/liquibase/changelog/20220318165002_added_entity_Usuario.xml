@@ -20,7 +20,7 @@
             <column name="apellidos" type="varchar(50)">
                 <constraints nullable="true" />
             </column>
-            <column name="correo" type="varchar(20)">
+            <column name="correo" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="dni" type="varchar(255)">
@@ -39,7 +39,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="fn" type="${datetimeType}">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="fecha_registro" type="${datetimeType}">
                 <constraints nullable="true" />

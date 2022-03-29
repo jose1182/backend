@@ -34,8 +34,8 @@ public class Usuario implements Serializable {
     private String apellidos;
 
     @NotNull
-    @Size(max = 20)
-    @Column(name = "correo", length = 20, nullable = false)
+    @Size(max = 255)
+    @Column(name = "correo", length = 255, nullable = false)
     private String correo;
 
     @NotNull
@@ -58,8 +58,8 @@ public class Usuario implements Serializable {
     @Column(name = "profesion")
     private String profesion;
 
-    @NotNull
-    @Column(name = "fn", nullable = false)
+    @Null
+    @Column(name = "fn", nullable = true)
     private Instant fn;
 
     @Column(name = "fecha_registro")

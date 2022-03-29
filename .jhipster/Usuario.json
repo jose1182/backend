@@ -18,7 +18,7 @@
       "fieldName": "correo",
       "fieldType": "String",
       "fieldValidateRules": ["required", "maxlength"],
-      "fieldValidateRulesMaxlength": "20"
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "dni",
@@ -48,7 +48,6 @@
     {
       "fieldName": "fn",
       "fieldType": "Instant",
-      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "fechaRegistro",
