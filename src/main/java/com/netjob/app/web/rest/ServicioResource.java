@@ -205,6 +205,7 @@ public class ServicioResource {
             .build();
     }
 
+    /*Servicios vinculados a un usuario concreto*/
     @GetMapping("/servicios/usuario")
     public ResponseEntity<List<ServicioDTO>> getServicioByUsuario(
         @RequestParam(value = "id") Long userId,
