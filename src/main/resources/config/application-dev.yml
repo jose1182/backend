@@ -49,16 +49,16 @@ spring:
     contexts: dev, faker
     drop-first: true
   mail:
-    host: smtp.mailtrap.io
-    port: 465
-    username: 153b353548249f #Replace this field with your Gmail username.
-    password: 8d056dad561ada #Replace this field with your Gmail password/App password.
+    host: smtp.gmail.com
+    port: 587
+    username: netjobproyecto@gmail.com #Replace this field with your Gmail username.
+    password: distincion #Replace this field with your Gmail password/App password.
     protocol: smtp
     tls: true
     properties.mail.smtp:
       auth: true
       starttls.enable: true
-      ssl.trust: smtp.mailtrap.io
+      ssl.trust: smtp.gmail.com
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
