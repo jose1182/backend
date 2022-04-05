@@ -82,4 +82,9 @@ public class ServicioServiceImpl implements ServicioService {
     public Page<ServicioDTO> findAllByUsuario_id(Long userId, Pageable pageable) {
         return servicioRepository.findAllByUsuario_id(userId, pageable).map(servicioMapper::toDto);
     }
+
+    @Override
+    public Page<ServicioDTO> findAllByCategoria_id(Long id, Pageable pageable) {
+        return servicioRepository.findAllByCategorias_id(id, pageable).map(servicioMapper::toDto);
+    }
 }

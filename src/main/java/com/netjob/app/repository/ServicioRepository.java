@@ -27,4 +27,6 @@ public interface ServicioRepository extends JpaRepository<Servicio, Long>, JpaSp
     Optional<Servicio> findOneWithEagerRelationships(@Param("id") Long id);
 
     Page<Servicio> findAllByUsuario_id(Long userId, Pageable pageable);
+
+    Page<Servicio> findAllByCategorias_id(Long id, Pageable pageable);
 }
