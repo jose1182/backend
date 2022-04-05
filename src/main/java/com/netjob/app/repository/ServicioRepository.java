@@ -28,5 +28,5 @@ public interface ServicioRepository extends JpaRepository<Servicio, Long>, JpaSp
 
     Page<Servicio> findAllByUsuario_id(Long userId, Pageable pageable);
 
-    Page<Servicio> findAllByCategoria_id(Long id, Pageable pageable);
+    Page<Servicio> findAllByCategorias_id(Long id, Pageable pageable);
 }

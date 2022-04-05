@@ -85,6 +85,6 @@ public class ServicioServiceImpl implements ServicioService {
 
     @Override
     public Page<ServicioDTO> findAllByCategoria_id(Long id, Pageable pageable) {
-        return servicioRepository.findAllByCategoria_id(id, pageable).map(servicioMapper::toDto);
+        return servicioRepository.findAllByCategorias_id(id, pageable).map(servicioMapper::toDto);
     }
 }
