@@ -215,4 +215,15 @@ public class ServicioResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    /*Servicios vinculados a una categoría concreta*/
+    @GetMapping("/servicios/categoria")
+    public ResponseEntity<List<ServicioDTO>> getServicioByCategoria(
+        @RequestParam(value = "id") String id,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<ServicioDTO> page = servicioService.findAllByCategoria_id(Long.parseLong(id), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }
