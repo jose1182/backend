@@ -22,6 +22,8 @@ describe('Categoria Service', () => {
     elemDefault = {
       id: 0,
       nombre: 'AAAAAAA',
+      imagenContentType: 'image/png',
+      imagen: 'AAAAAAA',
     };
   });
 
@@ -58,6 +60,7 @@ describe('Categoria Service', () => {
         {
           id: 1,
           nombre: 'BBBBBB',
+          imagen: 'BBBBBB',
         },
         elemDefault
       );
@@ -72,7 +75,12 @@ describe('Categoria Service', () => {
     });
 
     it('should partial update a Categoria', () => {
-      const patchObject = Object.assign({}, new Categoria());
+      const patchObject = Object.assign(
+        {
+          imagen: 'BBBBBB',
+        },
+        new Categoria()
+      );
 
       const returnedFromService = Object.assign(patchObject, elemDefault);
 
@@ -90,6 +98,7 @@ describe('Categoria Service', () => {
         {
           id: 1,
           nombre: 'BBBBBB',
+          imagen: 'BBBBBB',
         },
         elemDefault
       );
@@ -141,7 +150,7 @@ describe('Categoria Service', () => {
       });
 
       it('should add only unique Categoria to an array', () => {
-        const categoriaArray: ICategoria[] = [{ id: 123 }, { id: 456 }, { id: 55908 }];
+        const categoriaArray: ICategoria[] = [{ id: 123 }, { id: 456 }, { id: 17584 }];
         const categoriaCollection: ICategoria[] = [{ id: 123 }];
         expectedResult = service.addCategoriaToCollectionIfMissing(categoriaCollection, ...categoriaArray);
         expect(expectedResult).toHaveLength(3);

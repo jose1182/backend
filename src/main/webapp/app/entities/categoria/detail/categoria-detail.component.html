@@ -18,6 +18,19 @@
         <dd>
           <span>{{ categoria.nombre }}</span>
         </dd>
+        <dt><span>Imagen</span></dt>
+        <dd>
+          <div *ngIf="categoria.imagen">
+            <a (click)="openFile(categoria.imagen, categoria.imagenContentType)">
+              <img
+                [src]="'data:' + categoria.imagenContentType + ';base64,' + categoria.imagen"
+                style="max-width: 100%"
+                alt="categoria image"
+              />
+            </a>
+            {{ categoria.imagenContentType }}, {{ byteSize(categoria.imagen) }}
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

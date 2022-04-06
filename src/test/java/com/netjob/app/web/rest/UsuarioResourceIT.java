@@ -35,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link UsuarioResource} REST controller.
@@ -74,6 +75,11 @@ class UsuarioResourceIT {
 
     private static final Instant DEFAULT_FECHA_REGISTRO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final byte[] DEFAULT_IMAGEN = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGEN = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGEN_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGEN_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/usuarios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -118,7 +124,9 @@ class UsuarioResourceIT {
             .provincia(DEFAULT_PROVINCIA)
             .profesion(DEFAULT_PROFESION)
             .fn(DEFAULT_FN)
-            .fechaRegistro(DEFAULT_FECHA_REGISTRO);
+            .fechaRegistro(DEFAULT_FECHA_REGISTRO)
+            .imagen(DEFAULT_IMAGEN)
+            .imagenContentType(DEFAULT_IMAGEN_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -144,7 +152,9 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -182,6 +192,8 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(DEFAULT_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(DEFAULT_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(DEFAULT_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(DEFAULT_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
 
         // Validate the id for MapsId, the ids must be same
         assertThat(testUsuario.getId()).isEqualTo(usuarioDTO.getUser().getId());
@@ -395,7 +407,9 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].provincia").value(hasItem(DEFAULT_PROVINCIA)))
             .andExpect(jsonPath("$.[*].profesion").value(hasItem(DEFAULT_PROFESION)))
             .andExpect(jsonPath("$.[*].fn").value(hasItem(DEFAULT_FN.toString())))
-            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -437,7 +451,9 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.provincia").value(DEFAULT_PROVINCIA))
             .andExpect(jsonPath("$.profesion").value(DEFAULT_PROFESION))
             .andExpect(jsonPath("$.fn").value(DEFAULT_FN.toString()))
-            .andExpect(jsonPath("$.fechaRegistro").value(DEFAULT_FECHA_REGISTRO.toString()));
+            .andExpect(jsonPath("$.fechaRegistro").value(DEFAULT_FECHA_REGISTRO.toString()))
+            .andExpect(jsonPath("$.imagenContentType").value(DEFAULT_IMAGEN_CONTENT_TYPE))
+            .andExpect(jsonPath("$.imagen").value(Base64Utils.encodeToString(DEFAULT_IMAGEN)));
     }
 
     @Test
@@ -1245,7 +1261,9 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].provincia").value(hasItem(DEFAULT_PROVINCIA)))
             .andExpect(jsonPath("$.[*].profesion").value(hasItem(DEFAULT_PROFESION)))
             .andExpect(jsonPath("$.[*].fn").value(hasItem(DEFAULT_FN.toString())))
-            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))));
 
         // Check, that the count call also returns 1
         restUsuarioMockMvc
@@ -1303,7 +1321,9 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
         UsuarioDTO usuarioDTO = usuarioMapper.toDto(updatedUsuario);
 
         restUsuarioMockMvc
@@ -1328,6 +1348,8 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(UPDATED_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(UPDATED_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(UPDATED_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
     }
 
     @Test
@@ -1431,6 +1453,8 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(DEFAULT_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(DEFAULT_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(DEFAULT_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(DEFAULT_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
     }
 
     @Test
@@ -1455,7 +1479,9 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
 
         restUsuarioMockMvc
             .perform(
@@ -1479,6 +1505,8 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(UPDATED_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(UPDATED_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(UPDATED_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
     }
 
     @Test

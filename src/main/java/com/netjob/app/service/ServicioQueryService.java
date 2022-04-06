@@ -111,6 +111,9 @@ public class ServicioQueryService extends QueryService<Servicio> {
             if (criteria.getFechaactualizacion() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFechaactualizacion(), Servicio_.fechaactualizacion));
             }
+            if (criteria.getDestacado() != null) {
+                specification = specification.and(buildSpecification(criteria.getDestacado(), Servicio_.destacado));
+            }
             if (criteria.getUsuarioId() != null) {
                 specification =
                     specification.and(

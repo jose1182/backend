@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link CategoriaResource} REST controller.
@@ -35,6 +36,11 @@ class CategoriaResourceIT {
 
     private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_IMAGEN = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGEN = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGEN_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGEN_CONTENT_TYPE = "image/png";
 
     private static final String ENTITY_API_URL = "/api/categorias";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -63,7 +69,7 @@ class CategoriaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Categoria createEntity(EntityManager em) {
-        Categoria categoria = new Categoria().nombre(DEFAULT_NOMBRE);
+        Categoria categoria = new Categoria().nombre(DEFAULT_NOMBRE).imagen(DEFAULT_IMAGEN).imagenContentType(DEFAULT_IMAGEN_CONTENT_TYPE);
         return categoria;
     }
 
@@ -74,7 +80,7 @@ class CategoriaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Categoria createUpdatedEntity(EntityManager em) {
-        Categoria categoria = new Categoria().nombre(UPDATED_NOMBRE);
+        Categoria categoria = new Categoria().nombre(UPDATED_NOMBRE).imagen(UPDATED_IMAGEN).imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
         return categoria;
     }
 
@@ -98,6 +104,8 @@ class CategoriaResourceIT {
         assertThat(categoriaList).hasSize(databaseSizeBeforeCreate + 1);
         Categoria testCategoria = categoriaList.get(categoriaList.size() - 1);
         assertThat(testCategoria.getNombre()).isEqualTo(DEFAULT_NOMBRE);
+        assertThat(testCategoria.getImagen()).isEqualTo(DEFAULT_IMAGEN);
+        assertThat(testCategoria.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
     }
 
     @Test
@@ -149,7 +157,9 @@ class CategoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(categoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))));
     }
 
     @Test
@@ -164,7 +174,9 @@ class CategoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(categoria.getId().intValue()))
-            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE));
+            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
+            .andExpect(jsonPath("$.imagenContentType").value(DEFAULT_IMAGEN_CONTENT_TYPE))
+            .andExpect(jsonPath("$.imagen").value(Base64Utils.encodeToString(DEFAULT_IMAGEN)));
     }
 
     @Test
@@ -298,7 +310,9 @@ class CategoriaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(categoria.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))));
 
         // Check, that the count call also returns 1
         restCategoriaMockMvc
@@ -346,7 +360,7 @@ class CategoriaResourceIT {
         Categoria updatedCategoria = categoriaRepository.findById(categoria.getId()).get();
         // Disconnect from session so that the updates on updatedCategoria are not directly saved in db
         em.detach(updatedCategoria);
-        updatedCategoria.nombre(UPDATED_NOMBRE);
+        updatedCategoria.nombre(UPDATED_NOMBRE).imagen(UPDATED_IMAGEN).imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
         CategoriaDTO categoriaDTO = categoriaMapper.toDto(updatedCategoria);
 
         restCategoriaMockMvc
@@ -362,6 +376,8 @@ class CategoriaResourceIT {
         assertThat(categoriaList).hasSize(databaseSizeBeforeUpdate);
         Categoria testCategoria = categoriaList.get(categoriaList.size() - 1);
         assertThat(testCategoria.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testCategoria.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testCategoria.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
     }
 
     @Test
@@ -441,7 +457,7 @@ class CategoriaResourceIT {
         Categoria partialUpdatedCategoria = new Categoria();
         partialUpdatedCategoria.setId(categoria.getId());
 
-        partialUpdatedCategoria.nombre(UPDATED_NOMBRE);
+        partialUpdatedCategoria.nombre(UPDATED_NOMBRE).imagen(UPDATED_IMAGEN).imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
 
         restCategoriaMockMvc
             .perform(
@@ -456,6 +472,8 @@ class CategoriaResourceIT {
         assertThat(categoriaList).hasSize(databaseSizeBeforeUpdate);
         Categoria testCategoria = categoriaList.get(categoriaList.size() - 1);
         assertThat(testCategoria.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testCategoria.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testCategoria.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
     }
 
     @Test
@@ -470,7 +488,7 @@ class CategoriaResourceIT {
         Categoria partialUpdatedCategoria = new Categoria();
         partialUpdatedCategoria.setId(categoria.getId());
 
-        partialUpdatedCategoria.nombre(UPDATED_NOMBRE);
+        partialUpdatedCategoria.nombre(UPDATED_NOMBRE).imagen(UPDATED_IMAGEN).imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE);
 
         restCategoriaMockMvc
             .perform(
@@ -485,6 +503,8 @@ class CategoriaResourceIT {
         assertThat(categoriaList).hasSize(databaseSizeBeforeUpdate);
         Categoria testCategoria = categoriaList.get(categoriaList.size() - 1);
         assertThat(testCategoria.getNombre()).isEqualTo(UPDATED_NOMBRE);
+        assertThat(testCategoria.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testCategoria.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
     }
 
     @Test

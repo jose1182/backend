@@ -65,6 +65,13 @@ public class Usuario implements Serializable {
     @Column(name = "fecha_registro")
     private Instant fechaRegistro;
 
+    @Lob
+    @Column(name = "imagen")
+    private byte[] imagen;
+
+    @Column(name = "imagen_content_type")
+    private String imagenContentType;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
@@ -225,6 +232,32 @@ public class Usuario implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
+    public byte[] getImagen() {
+        return this.imagen;
+    }
+
+    public Usuario imagen(byte[] imagen) {
+        this.setImagen(imagen);
+        return this;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getImagenContentType() {
+        return this.imagenContentType;
+    }
+
+    public Usuario imagenContentType(String imagenContentType) {
+        this.imagenContentType = imagenContentType;
+        return this;
+    }
+
+    public void setImagenContentType(String imagenContentType) {
+        this.imagenContentType = imagenContentType;
+    }
+
     public User getUser() {
         return this.user;
     }
@@ -297,6 +330,8 @@ public class Usuario implements Serializable {
             ", profesion='" + getProfesion() + "'" +
             ", fn='" + getFn() + "'" +
             ", fechaRegistro='" + getFechaRegistro() + "'" +
+            ", imagen='" + getImagen() + "'" +
+            ", imagenContentType='" + getImagenContentType() + "'" +
             "}";
     }
 }

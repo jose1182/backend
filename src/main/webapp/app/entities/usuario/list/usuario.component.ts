@@ -9,6 +9,7 @@ import { IUsuario } from '../usuario.model';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { UsuarioService } from '../service/usuario.service';
 import { UsuarioDeleteDialogComponent } from '../delete/usuario-delete-dialog.component';
+import { DataUtils } from 'app/core/util/data-util.service';
 
 @Component({
   selector: 'jhi-usuario',
@@ -27,6 +28,7 @@ export class UsuarioComponent implements OnInit {
   constructor(
     protected usuarioService: UsuarioService,
     protected activatedRoute: ActivatedRoute,
+    protected dataUtils: DataUtils,
     protected router: Router,
     protected modalService: NgbModal
   ) {}
@@ -59,6 +61,14 @@ export class UsuarioComponent implements OnInit {
 
   trackId(index: number, item: IUsuario): number {
     return item.id!;
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(base64String: string, contentType: string | null | undefined): void {
+    return this.dataUtils.openFile(base64String, contentType);
   }
 
   delete(usuario: IUsuario): void {

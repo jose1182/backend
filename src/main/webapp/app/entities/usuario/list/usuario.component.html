@@ -43,6 +43,7 @@
           <th scope="col" jhiSortBy="profesion"><span>Profesion</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="fn"><span>Fn</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="fechaRegistro"><span>Fecha Registro</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="imagen"><span>Imagen</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="user.login"><span>User</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
@@ -62,6 +63,12 @@
           <td>{{ usuario.profesion }}</td>
           <td>{{ usuario.fn | formatMediumDatetime }}</td>
           <td>{{ usuario.fechaRegistro | formatMediumDatetime }}</td>
+          <td>
+            <a *ngIf="usuario.imagen" (click)="openFile(usuario.imagen, usuario.imagenContentType)">
+              <img [src]="'data:' + usuario.imagenContentType + ';base64,' + usuario.imagen" style="max-height: 30px" alt="usuario image" />
+            </a>
+            <span *ngIf="usuario.imagen">{{ usuario.imagenContentType }}, {{ byteSize(usuario.imagen) }}</span>
+          </td>
           <td>
             {{ usuario.user?.login }}
           </td>
