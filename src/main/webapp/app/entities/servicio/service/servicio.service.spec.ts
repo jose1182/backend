@@ -33,6 +33,7 @@ describe('Servicio Service', () => {
       preciotraslado: 0,
       fechacreacion: currentDate,
       fechaactualizacion: currentDate,
+      destacado: false,
     };
   });
 
@@ -89,6 +90,7 @@ describe('Servicio Service', () => {
           preciotraslado: 1,
           fechacreacion: currentDate.format(DATE_TIME_FORMAT),
           fechaactualizacion: currentDate.format(DATE_TIME_FORMAT),
+          destacado: true,
         },
         elemDefault
       );
@@ -116,6 +118,7 @@ describe('Servicio Service', () => {
           disponibilidad: 'BBBBBB',
           preciohora: 1,
           preciotraslado: 1,
+          destacado: true,
         },
         new Servicio()
       );
@@ -148,6 +151,7 @@ describe('Servicio Service', () => {
           preciotraslado: 1,
           fechacreacion: currentDate.format(DATE_TIME_FORMAT),
           fechaactualizacion: currentDate.format(DATE_TIME_FORMAT),
+          destacado: true,
         },
         elemDefault
       );
@@ -205,7 +209,7 @@ describe('Servicio Service', () => {
       });
 
       it('should add only unique Servicio to an array', () => {
-        const servicioArray: IServicio[] = [{ id: 123 }, { id: 456 }, { id: 53603 }];
+        const servicioArray: IServicio[] = [{ id: 123 }, { id: 456 }, { id: 81088 }];
         const servicioCollection: IServicio[] = [{ id: 123 }];
         expectedResult = service.addServicioToCollectionIfMissing(servicioCollection, ...servicioArray);
         expect(expectedResult).toHaveLength(3);

@@ -6,6 +6,11 @@
       "fieldName": "nombre",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "imagen",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
     }
   ],
   "jpaMetamodelFiltering": true,

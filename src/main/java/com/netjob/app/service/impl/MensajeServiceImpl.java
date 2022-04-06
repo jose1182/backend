@@ -73,19 +73,4 @@ public class MensajeServiceImpl implements MensajeService {
         log.debug("Request to delete Mensaje : {}", id);
         mensajeRepository.deleteById(id);
     }
-
-    @Override
-    public Page<MensajeDTO> findAllByEmisor_id(Long emisorId, Pageable pageable) {
-        return mensajeRepository.findAllByEmisor_id(emisorId, pageable).map(mensajeMapper::toDto);
-    }
-
-    @Override
-    public Page<MensajeDTO> findAllByReceptor_id(Long receptorId, Pageable pageable) {
-        return mensajeRepository.findAllByReceptor_id(receptorId, pageable).map(mensajeMapper::toDto);
-    }
-
-    @Override
-    public Page<MensajeDTO> findAllByConversacion_id(Long id, Pageable pageable) {
-        return mensajeRepository.findAllByConversacion_id(id, pageable).map(mensajeMapper::toDto);
-    }
 }

@@ -53,6 +53,19 @@
     {
       "fieldName": "fechaRegistro",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "imagen",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "codigopostal",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

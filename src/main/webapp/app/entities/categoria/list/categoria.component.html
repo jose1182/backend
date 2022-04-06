@@ -34,6 +34,7 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="nombre"><span>Nombre</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="imagen"><span>Imagen</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -43,6 +44,16 @@
             <a [routerLink]="['/categoria', categoria.id, 'view']">{{ categoria.id }}</a>
           </td>
           <td>{{ categoria.nombre }}</td>
+          <td>
+            <a *ngIf="categoria.imagen" (click)="openFile(categoria.imagen, categoria.imagenContentType)">
+              <img
+                [src]="'data:' + categoria.imagenContentType + ';base64,' + categoria.imagen"
+                style="max-height: 30px"
+                alt="categoria image"
+              />
+            </a>
+            <span *ngIf="categoria.imagen">{{ categoria.imagenContentType }}, {{ byteSize(categoria.imagen) }}</span>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button

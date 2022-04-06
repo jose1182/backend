@@ -39,6 +39,9 @@ public class ServicioDTO implements Serializable {
     @NotNull
     private Instant fechaactualizacion;
 
+    @NotNull
+    private Boolean destacado;
+
     private UsuarioDTO usuario;
 
     private Set<CategoriaDTO> categorias = new HashSet<>();
@@ -107,6 +110,14 @@ public class ServicioDTO implements Serializable {
         this.fechaactualizacion = fechaactualizacion;
     }
 
+    public Boolean getDestacado() {
+        return destacado;
+    }
+
+    public void setDestacado(Boolean destacado) {
+        this.destacado = destacado;
+    }
+
     public UsuarioDTO getUsuario() {
         return usuario;
     }
@@ -156,6 +167,7 @@ public class ServicioDTO implements Serializable {
             ", preciotraslado=" + getPreciotraslado() +
             ", fechacreacion='" + getFechacreacion() + "'" +
             ", fechaactualizacion='" + getFechaactualizacion() + "'" +
+            ", destacado='" + getDestacado() + "'" +
             ", usuario=" + getUsuario() +
             ", categorias=" + getCategorias() +
             "}";

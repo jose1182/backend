@@ -35,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link UsuarioResource} REST controller.
@@ -74,6 +75,17 @@ class UsuarioResourceIT {
 
     private static final Instant DEFAULT_FECHA_REGISTRO = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHA_REGISTRO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final byte[] DEFAULT_IMAGEN = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_IMAGEN = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_IMAGEN_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_IMAGEN_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_DESCRIPCION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPCION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CODIGOPOSTAL = "AAAAAAAAAA";
+    private static final String UPDATED_CODIGOPOSTAL = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/usuarios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -118,7 +130,11 @@ class UsuarioResourceIT {
             .provincia(DEFAULT_PROVINCIA)
             .profesion(DEFAULT_PROFESION)
             .fn(DEFAULT_FN)
-            .fechaRegistro(DEFAULT_FECHA_REGISTRO);
+            .fechaRegistro(DEFAULT_FECHA_REGISTRO)
+            .imagen(DEFAULT_IMAGEN)
+            .imagenContentType(DEFAULT_IMAGEN_CONTENT_TYPE)
+            .descripcion(DEFAULT_DESCRIPCION)
+            .codigopostal(DEFAULT_CODIGOPOSTAL);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -144,7 +160,11 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
+            .descripcion(UPDATED_DESCRIPCION)
+            .codigopostal(UPDATED_CODIGOPOSTAL);
         // Add required entity
         User user = UserResourceIT.createEntity(em);
         em.persist(user);
@@ -182,6 +202,10 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(DEFAULT_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(DEFAULT_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(DEFAULT_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(DEFAULT_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
+        assertThat(testUsuario.getDescripcion()).isEqualTo(DEFAULT_DESCRIPCION);
+        assertThat(testUsuario.getCodigopostal()).isEqualTo(DEFAULT_CODIGOPOSTAL);
 
         // Validate the id for MapsId, the ids must be same
         assertThat(testUsuario.getId()).isEqualTo(usuarioDTO.getUser().getId());
@@ -395,7 +419,11 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].provincia").value(hasItem(DEFAULT_PROVINCIA)))
             .andExpect(jsonPath("$.[*].profesion").value(hasItem(DEFAULT_PROFESION)))
             .andExpect(jsonPath("$.[*].fn").value(hasItem(DEFAULT_FN.toString())))
-            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
+            .andExpect(jsonPath("$.[*].codigopostal").value(hasItem(DEFAULT_CODIGOPOSTAL)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -437,7 +465,11 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.provincia").value(DEFAULT_PROVINCIA))
             .andExpect(jsonPath("$.profesion").value(DEFAULT_PROFESION))
             .andExpect(jsonPath("$.fn").value(DEFAULT_FN.toString()))
-            .andExpect(jsonPath("$.fechaRegistro").value(DEFAULT_FECHA_REGISTRO.toString()));
+            .andExpect(jsonPath("$.fechaRegistro").value(DEFAULT_FECHA_REGISTRO.toString()))
+            .andExpect(jsonPath("$.imagenContentType").value(DEFAULT_IMAGEN_CONTENT_TYPE))
+            .andExpect(jsonPath("$.imagen").value(Base64Utils.encodeToString(DEFAULT_IMAGEN)))
+            .andExpect(jsonPath("$.descripcion").value(DEFAULT_DESCRIPCION))
+            .andExpect(jsonPath("$.codigopostal").value(DEFAULT_CODIGOPOSTAL));
     }
 
     @Test
@@ -1188,6 +1220,162 @@ class UsuarioResourceIT {
 
     @Test
     @Transactional
+    void getAllUsuariosByDescripcionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion equals to DEFAULT_DESCRIPCION
+        defaultUsuarioShouldBeFound("descripcion.equals=" + DEFAULT_DESCRIPCION);
+
+        // Get all the usuarioList where descripcion equals to UPDATED_DESCRIPCION
+        defaultUsuarioShouldNotBeFound("descripcion.equals=" + UPDATED_DESCRIPCION);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByDescripcionIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion not equals to DEFAULT_DESCRIPCION
+        defaultUsuarioShouldNotBeFound("descripcion.notEquals=" + DEFAULT_DESCRIPCION);
+
+        // Get all the usuarioList where descripcion not equals to UPDATED_DESCRIPCION
+        defaultUsuarioShouldBeFound("descripcion.notEquals=" + UPDATED_DESCRIPCION);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByDescripcionIsInShouldWork() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion in DEFAULT_DESCRIPCION or UPDATED_DESCRIPCION
+        defaultUsuarioShouldBeFound("descripcion.in=" + DEFAULT_DESCRIPCION + "," + UPDATED_DESCRIPCION);
+
+        // Get all the usuarioList where descripcion equals to UPDATED_DESCRIPCION
+        defaultUsuarioShouldNotBeFound("descripcion.in=" + UPDATED_DESCRIPCION);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByDescripcionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion is not null
+        defaultUsuarioShouldBeFound("descripcion.specified=true");
+
+        // Get all the usuarioList where descripcion is null
+        defaultUsuarioShouldNotBeFound("descripcion.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByDescripcionContainsSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion contains DEFAULT_DESCRIPCION
+        defaultUsuarioShouldBeFound("descripcion.contains=" + DEFAULT_DESCRIPCION);
+
+        // Get all the usuarioList where descripcion contains UPDATED_DESCRIPCION
+        defaultUsuarioShouldNotBeFound("descripcion.contains=" + UPDATED_DESCRIPCION);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByDescripcionNotContainsSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where descripcion does not contain DEFAULT_DESCRIPCION
+        defaultUsuarioShouldNotBeFound("descripcion.doesNotContain=" + DEFAULT_DESCRIPCION);
+
+        // Get all the usuarioList where descripcion does not contain UPDATED_DESCRIPCION
+        defaultUsuarioShouldBeFound("descripcion.doesNotContain=" + UPDATED_DESCRIPCION);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalIsEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal equals to DEFAULT_CODIGOPOSTAL
+        defaultUsuarioShouldBeFound("codigopostal.equals=" + DEFAULT_CODIGOPOSTAL);
+
+        // Get all the usuarioList where codigopostal equals to UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldNotBeFound("codigopostal.equals=" + UPDATED_CODIGOPOSTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal not equals to DEFAULT_CODIGOPOSTAL
+        defaultUsuarioShouldNotBeFound("codigopostal.notEquals=" + DEFAULT_CODIGOPOSTAL);
+
+        // Get all the usuarioList where codigopostal not equals to UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldBeFound("codigopostal.notEquals=" + UPDATED_CODIGOPOSTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalIsInShouldWork() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal in DEFAULT_CODIGOPOSTAL or UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldBeFound("codigopostal.in=" + DEFAULT_CODIGOPOSTAL + "," + UPDATED_CODIGOPOSTAL);
+
+        // Get all the usuarioList where codigopostal equals to UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldNotBeFound("codigopostal.in=" + UPDATED_CODIGOPOSTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal is not null
+        defaultUsuarioShouldBeFound("codigopostal.specified=true");
+
+        // Get all the usuarioList where codigopostal is null
+        defaultUsuarioShouldNotBeFound("codigopostal.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalContainsSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal contains DEFAULT_CODIGOPOSTAL
+        defaultUsuarioShouldBeFound("codigopostal.contains=" + DEFAULT_CODIGOPOSTAL);
+
+        // Get all the usuarioList where codigopostal contains UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldNotBeFound("codigopostal.contains=" + UPDATED_CODIGOPOSTAL);
+    }
+
+    @Test
+    @Transactional
+    void getAllUsuariosByCodigopostalNotContainsSomething() throws Exception {
+        // Initialize the database
+        usuarioRepository.saveAndFlush(usuario);
+
+        // Get all the usuarioList where codigopostal does not contain DEFAULT_CODIGOPOSTAL
+        defaultUsuarioShouldNotBeFound("codigopostal.doesNotContain=" + DEFAULT_CODIGOPOSTAL);
+
+        // Get all the usuarioList where codigopostal does not contain UPDATED_CODIGOPOSTAL
+        defaultUsuarioShouldBeFound("codigopostal.doesNotContain=" + UPDATED_CODIGOPOSTAL);
+    }
+
+    @Test
+    @Transactional
     void getAllUsuariosByUserIsEqualToSomething() throws Exception {
         // Get already existing entity
         User user = usuario.getUser();
@@ -1245,7 +1433,11 @@ class UsuarioResourceIT {
             .andExpect(jsonPath("$.[*].provincia").value(hasItem(DEFAULT_PROVINCIA)))
             .andExpect(jsonPath("$.[*].profesion").value(hasItem(DEFAULT_PROFESION)))
             .andExpect(jsonPath("$.[*].fn").value(hasItem(DEFAULT_FN.toString())))
-            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())));
+            .andExpect(jsonPath("$.[*].fechaRegistro").value(hasItem(DEFAULT_FECHA_REGISTRO.toString())))
+            .andExpect(jsonPath("$.[*].imagenContentType").value(hasItem(DEFAULT_IMAGEN_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].imagen").value(hasItem(Base64Utils.encodeToString(DEFAULT_IMAGEN))))
+            .andExpect(jsonPath("$.[*].descripcion").value(hasItem(DEFAULT_DESCRIPCION)))
+            .andExpect(jsonPath("$.[*].codigopostal").value(hasItem(DEFAULT_CODIGOPOSTAL)));
 
         // Check, that the count call also returns 1
         restUsuarioMockMvc
@@ -1303,7 +1495,11 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
+            .descripcion(UPDATED_DESCRIPCION)
+            .codigopostal(UPDATED_CODIGOPOSTAL);
         UsuarioDTO usuarioDTO = usuarioMapper.toDto(updatedUsuario);
 
         restUsuarioMockMvc
@@ -1328,6 +1524,10 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(UPDATED_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(UPDATED_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(UPDATED_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
+        assertThat(testUsuario.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
+        assertThat(testUsuario.getCodigopostal()).isEqualTo(UPDATED_CODIGOPOSTAL);
     }
 
     @Test
@@ -1407,7 +1607,12 @@ class UsuarioResourceIT {
         Usuario partialUpdatedUsuario = new Usuario();
         partialUpdatedUsuario.setId(usuario.getId());
 
-        partialUpdatedUsuario.nombre(UPDATED_NOMBRE).correo(UPDATED_CORREO).provincia(UPDATED_PROVINCIA);
+        partialUpdatedUsuario
+            .nombre(UPDATED_NOMBRE)
+            .correo(UPDATED_CORREO)
+            .provincia(UPDATED_PROVINCIA)
+            .descripcion(UPDATED_DESCRIPCION)
+            .codigopostal(UPDATED_CODIGOPOSTAL);
 
         restUsuarioMockMvc
             .perform(
@@ -1431,6 +1636,10 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(DEFAULT_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(DEFAULT_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(DEFAULT_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(DEFAULT_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(DEFAULT_IMAGEN_CONTENT_TYPE);
+        assertThat(testUsuario.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
+        assertThat(testUsuario.getCodigopostal()).isEqualTo(UPDATED_CODIGOPOSTAL);
     }
 
     @Test
@@ -1455,7 +1664,11 @@ class UsuarioResourceIT {
             .provincia(UPDATED_PROVINCIA)
             .profesion(UPDATED_PROFESION)
             .fn(UPDATED_FN)
-            .fechaRegistro(UPDATED_FECHA_REGISTRO);
+            .fechaRegistro(UPDATED_FECHA_REGISTRO)
+            .imagen(UPDATED_IMAGEN)
+            .imagenContentType(UPDATED_IMAGEN_CONTENT_TYPE)
+            .descripcion(UPDATED_DESCRIPCION)
+            .codigopostal(UPDATED_CODIGOPOSTAL);
 
         restUsuarioMockMvc
             .perform(
@@ -1479,6 +1692,10 @@ class UsuarioResourceIT {
         assertThat(testUsuario.getProfesion()).isEqualTo(UPDATED_PROFESION);
         assertThat(testUsuario.getFn()).isEqualTo(UPDATED_FN);
         assertThat(testUsuario.getFechaRegistro()).isEqualTo(UPDATED_FECHA_REGISTRO);
+        assertThat(testUsuario.getImagen()).isEqualTo(UPDATED_IMAGEN);
+        assertThat(testUsuario.getImagenContentType()).isEqualTo(UPDATED_IMAGEN_CONTENT_TYPE);
+        assertThat(testUsuario.getDescripcion()).isEqualTo(UPDATED_DESCRIPCION);
+        assertThat(testUsuario.getCodigopostal()).isEqualTo(UPDATED_CODIGOPOSTAL);
     }
 
     @Test

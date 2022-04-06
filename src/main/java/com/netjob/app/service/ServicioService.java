@@ -55,14 +55,4 @@ public interface ServicioService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    /*
-     * Servicios por Usuario
-     * */
-    Page<ServicioDTO> findAllByUsuario_id(Long userId, Pageable pageable);
-
-    /*
-     * Servicios por categoría
-     * */
-    Page<ServicioDTO> findAllByCategoria_id(Long id, Pageable pageable);
 }

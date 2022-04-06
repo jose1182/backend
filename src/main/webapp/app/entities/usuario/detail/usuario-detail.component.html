@@ -54,6 +54,23 @@
         <dd>
           <span>{{ usuario.fechaRegistro | formatMediumDatetime }}</span>
         </dd>
+        <dt><span>Imagen</span></dt>
+        <dd>
+          <div *ngIf="usuario.imagen">
+            <a (click)="openFile(usuario.imagen, usuario.imagenContentType)">
+              <img [src]="'data:' + usuario.imagenContentType + ';base64,' + usuario.imagen" style="max-width: 100%" alt="usuario image" />
+            </a>
+            {{ usuario.imagenContentType }}, {{ byteSize(usuario.imagen) }}
+          </div>
+        </dd>
+        <dt><span>Descripcion</span></dt>
+        <dd>
+          <span>{{ usuario.descripcion }}</span>
+        </dd>
+        <dt><span>Codigopostal</span></dt>
+        <dd>
+          <span>{{ usuario.codigopostal }}</span>
+        </dd>
         <dt><span>User</span></dt>
         <dd>
           <span>{{ usuario.user?.login }}</span>

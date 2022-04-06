@@ -69,6 +69,9 @@ class ServicioResourceIT {
     private static final Instant DEFAULT_FECHAACTUALIZACION = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_FECHAACTUALIZACION = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Boolean DEFAULT_DESTACADO = false;
+    private static final Boolean UPDATED_DESTACADO = true;
+
     private static final String ENTITY_API_URL = "/api/servicios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -109,7 +112,8 @@ class ServicioResourceIT {
             .preciohora(DEFAULT_PRECIOHORA)
             .preciotraslado(DEFAULT_PRECIOTRASLADO)
             .fechacreacion(DEFAULT_FECHACREACION)
-            .fechaactualizacion(DEFAULT_FECHAACTUALIZACION);
+            .fechaactualizacion(DEFAULT_FECHAACTUALIZACION)
+            .destacado(DEFAULT_DESTACADO);
         return servicio;
     }
 
@@ -127,7 +131,8 @@ class ServicioResourceIT {
             .preciohora(UPDATED_PRECIOHORA)
             .preciotraslado(UPDATED_PRECIOTRASLADO)
             .fechacreacion(UPDATED_FECHACREACION)
-            .fechaactualizacion(UPDATED_FECHAACTUALIZACION);
+            .fechaactualizacion(UPDATED_FECHAACTUALIZACION)
+            .destacado(UPDATED_DESTACADO);
         return servicio;
     }
 
@@ -157,6 +162,7 @@ class ServicioResourceIT {
         assertThat(testServicio.getPreciotraslado()).isEqualTo(DEFAULT_PRECIOTRASLADO);
         assertThat(testServicio.getFechacreacion()).isEqualTo(DEFAULT_FECHACREACION);
         assertThat(testServicio.getFechaactualizacion()).isEqualTo(DEFAULT_FECHAACTUALIZACION);
+        assertThat(testServicio.getDestacado()).isEqualTo(DEFAULT_DESTACADO);
     }
 
     @Test
@@ -306,6 +312,24 @@ class ServicioResourceIT {
 
     @Test
     @Transactional
+    void checkDestacadoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = servicioRepository.findAll().size();
+        // set the field null
+        servicio.setDestacado(null);
+
+        // Create the Servicio, which fails.
+        ServicioDTO servicioDTO = servicioMapper.toDto(servicio);
+
+        restServicioMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(servicioDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Servicio> servicioList = servicioRepository.findAll();
+        assertThat(servicioList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllServicios() throws Exception {
         // Initialize the database
         servicioRepository.saveAndFlush(servicio);
@@ -322,7 +346,8 @@ class ServicioResourceIT {
             .andExpect(jsonPath("$.[*].preciohora").value(hasItem(DEFAULT_PRECIOHORA.doubleValue())))
             .andExpect(jsonPath("$.[*].preciotraslado").value(hasItem(DEFAULT_PRECIOTRASLADO.doubleValue())))
             .andExpect(jsonPath("$.[*].fechacreacion").value(hasItem(DEFAULT_FECHACREACION.toString())))
-            .andExpect(jsonPath("$.[*].fechaactualizacion").value(hasItem(DEFAULT_FECHAACTUALIZACION.toString())));
+            .andExpect(jsonPath("$.[*].fechaactualizacion").value(hasItem(DEFAULT_FECHAACTUALIZACION.toString())))
+            .andExpect(jsonPath("$.[*].destacado").value(hasItem(DEFAULT_DESTACADO.booleanValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -361,7 +386,8 @@ class ServicioResourceIT {
             .andExpect(jsonPath("$.preciohora").value(DEFAULT_PRECIOHORA.doubleValue()))
             .andExpect(jsonPath("$.preciotraslado").value(DEFAULT_PRECIOTRASLADO.doubleValue()))
             .andExpect(jsonPath("$.fechacreacion").value(DEFAULT_FECHACREACION.toString()))
-            .andExpect(jsonPath("$.fechaactualizacion").value(DEFAULT_FECHAACTUALIZACION.toString()));
+            .andExpect(jsonPath("$.fechaactualizacion").value(DEFAULT_FECHAACTUALIZACION.toString()))
+            .andExpect(jsonPath("$.destacado").value(DEFAULT_DESTACADO.booleanValue()));
     }
 
     @Test
@@ -904,6 +930,58 @@ class ServicioResourceIT {
 
     @Test
     @Transactional
+    void getAllServiciosByDestacadoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        servicioRepository.saveAndFlush(servicio);
+
+        // Get all the servicioList where destacado equals to DEFAULT_DESTACADO
+        defaultServicioShouldBeFound("destacado.equals=" + DEFAULT_DESTACADO);
+
+        // Get all the servicioList where destacado equals to UPDATED_DESTACADO
+        defaultServicioShouldNotBeFound("destacado.equals=" + UPDATED_DESTACADO);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiciosByDestacadoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        servicioRepository.saveAndFlush(servicio);
+
+        // Get all the servicioList where destacado not equals to DEFAULT_DESTACADO
+        defaultServicioShouldNotBeFound("destacado.notEquals=" + DEFAULT_DESTACADO);
+
+        // Get all the servicioList where destacado not equals to UPDATED_DESTACADO
+        defaultServicioShouldBeFound("destacado.notEquals=" + UPDATED_DESTACADO);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiciosByDestacadoIsInShouldWork() throws Exception {
+        // Initialize the database
+        servicioRepository.saveAndFlush(servicio);
+
+        // Get all the servicioList where destacado in DEFAULT_DESTACADO or UPDATED_DESTACADO
+        defaultServicioShouldBeFound("destacado.in=" + DEFAULT_DESTACADO + "," + UPDATED_DESTACADO);
+
+        // Get all the servicioList where destacado equals to UPDATED_DESTACADO
+        defaultServicioShouldNotBeFound("destacado.in=" + UPDATED_DESTACADO);
+    }
+
+    @Test
+    @Transactional
+    void getAllServiciosByDestacadoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        servicioRepository.saveAndFlush(servicio);
+
+        // Get all the servicioList where destacado is not null
+        defaultServicioShouldBeFound("destacado.specified=true");
+
+        // Get all the servicioList where destacado is null
+        defaultServicioShouldNotBeFound("destacado.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllServiciosByUsuarioIsEqualToSomething() throws Exception {
         // Initialize the database
         servicioRepository.saveAndFlush(servicio);
@@ -969,7 +1047,8 @@ class ServicioResourceIT {
             .andExpect(jsonPath("$.[*].preciohora").value(hasItem(DEFAULT_PRECIOHORA.doubleValue())))
             .andExpect(jsonPath("$.[*].preciotraslado").value(hasItem(DEFAULT_PRECIOTRASLADO.doubleValue())))
             .andExpect(jsonPath("$.[*].fechacreacion").value(hasItem(DEFAULT_FECHACREACION.toString())))
-            .andExpect(jsonPath("$.[*].fechaactualizacion").value(hasItem(DEFAULT_FECHAACTUALIZACION.toString())));
+            .andExpect(jsonPath("$.[*].fechaactualizacion").value(hasItem(DEFAULT_FECHAACTUALIZACION.toString())))
+            .andExpect(jsonPath("$.[*].destacado").value(hasItem(DEFAULT_DESTACADO.booleanValue())));
 
         // Check, that the count call also returns 1
         restServicioMockMvc
@@ -1024,7 +1103,8 @@ class ServicioResourceIT {
             .preciohora(UPDATED_PRECIOHORA)
             .preciotraslado(UPDATED_PRECIOTRASLADO)
             .fechacreacion(UPDATED_FECHACREACION)
-            .fechaactualizacion(UPDATED_FECHAACTUALIZACION);
+            .fechaactualizacion(UPDATED_FECHAACTUALIZACION)
+            .destacado(UPDATED_DESTACADO);
         ServicioDTO servicioDTO = servicioMapper.toDto(updatedServicio);
 
         restServicioMockMvc
@@ -1046,6 +1126,7 @@ class ServicioResourceIT {
         assertThat(testServicio.getPreciotraslado()).isEqualTo(UPDATED_PRECIOTRASLADO);
         assertThat(testServicio.getFechacreacion()).isEqualTo(UPDATED_FECHACREACION);
         assertThat(testServicio.getFechaactualizacion()).isEqualTo(UPDATED_FECHAACTUALIZACION);
+        assertThat(testServicio.getDestacado()).isEqualTo(UPDATED_DESTACADO);
     }
 
     @Test
@@ -1146,6 +1227,7 @@ class ServicioResourceIT {
         assertThat(testServicio.getPreciotraslado()).isEqualTo(UPDATED_PRECIOTRASLADO);
         assertThat(testServicio.getFechacreacion()).isEqualTo(DEFAULT_FECHACREACION);
         assertThat(testServicio.getFechaactualizacion()).isEqualTo(DEFAULT_FECHAACTUALIZACION);
+        assertThat(testServicio.getDestacado()).isEqualTo(DEFAULT_DESTACADO);
     }
 
     @Test
@@ -1167,7 +1249,8 @@ class ServicioResourceIT {
             .preciohora(UPDATED_PRECIOHORA)
             .preciotraslado(UPDATED_PRECIOTRASLADO)
             .fechacreacion(UPDATED_FECHACREACION)
-            .fechaactualizacion(UPDATED_FECHAACTUALIZACION);
+            .fechaactualizacion(UPDATED_FECHAACTUALIZACION)
+            .destacado(UPDATED_DESTACADO);
 
         restServicioMockMvc
             .perform(
@@ -1188,6 +1271,7 @@ class ServicioResourceIT {
         assertThat(testServicio.getPreciotraslado()).isEqualTo(UPDATED_PRECIOTRASLADO);
         assertThat(testServicio.getFechacreacion()).isEqualTo(UPDATED_FECHACREACION);
         assertThat(testServicio.getFechaactualizacion()).isEqualTo(UPDATED_FECHAACTUALIZACION);
+        assertThat(testServicio.getDestacado()).isEqualTo(UPDATED_DESTACADO);
     }
 
     @Test
