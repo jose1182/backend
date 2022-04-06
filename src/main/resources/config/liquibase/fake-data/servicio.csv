@@ -1,11 +1,11 @@
-id;titulo;descripcion;disponibilidad;preciohora;preciotraslado;fechacreacion;fechaactualizacion
-1;content Bedfordshire;Avon Madera;COMPLETA;10149;69408;2022-03-20T22:17:51;2022-03-21T05:36:10
-2;Guantes;5th Ensalada canal;TARDE;2979;62504;2022-03-21T16:25:57;2022-03-21T10:33:11
-3;Torrente Teclado emulación;Ouguiya Programa hack;MANANA;67227;12526;2022-03-21T13:06:27;2022-03-20T23:35:13
-4;Pequeño;open-source Futuro Lats;COMPLETA;65805;37360;2022-03-21T10:17:08;2022-03-21T03:55:17
-5;impactful Gris;Creativo Guapo (customarily;TARDE;825;80618;2022-03-21T00:12:32;2022-03-21T13:59:07
-6;feed generación Sabroso;Videojuegos Burundi copying;MANANA;34427;45480;2022-03-20T22:58:17;2022-03-21T11:15:33
-7;Cambridgeshire open-source brand;SMS Loan;TARDE;50175;59118;2022-03-21T16:09:22;2022-03-21T02:42:29
-8;Bicicleta;e-enable AGP Mercado;TARDE;14991;93685;2022-03-21T03:35:25;2022-03-20T22:17:17
-9;metrics Orgánico Guapa;Ramal engage parsing;TARDE;27404;47954;2022-03-20T23:42:46;2022-03-21T09:13:33
-10;Pequeño;Regional;COMPLETA;23680;19502;2022-03-21T04:03:01;2022-03-21T06:19:30
+id;titulo;descripcion;disponibilidad;preciohora;preciotraslado;fechacreacion;fechaactualizacion;destacado
+1;content Bedfordshire;Avon Madera;COMPLETA;10149;69408;2022-03-20T22:17:51;2022-03-21T05:36:10;false
+2;brand;port Carretera Algodón;MANANA;62504;2537;2022-03-21T10:33:11;2022-03-20T19:41:52;false
+3;Rústico envisioneer Interacciones;mediante La;TARDE;7108;67227;2022-03-21T14:02:07;2022-03-21T13:06:27;true
+4;Pequeño;open-source Futuro Lats;COMPLETA;65805;37360;2022-03-21T10:17:08;2022-03-21T03:55:17;true
+5;bluetooth e-tailers;calculating auxiliary Increible;MANANA;80618;70136;2022-03-21T13:59:07;2022-03-21T00:00:58;true
+6;Inteligente Bahamas Madera;Videojuegos Burundi copying;MANANA;34427;45480;2022-03-20T22:58:17;2022-03-21T11:15:33;true
+7;Ingeniero Barbados;Analista firewall;COMPLETA;45544;41637;2022-03-21T04:59:59;2022-03-21T02:51:12;false
+8;Teclado Gerente;Suriname Arquitecto Berkshire;COMPLETA;56047;78140;2022-03-20T20:02:53;2022-03-21T06:50:52;true
+9;Orgánico;bypassing;TARDE;72945;52299;2022-03-21T07:39:52;2022-03-21T02:44:00;false
+10;Ingeniero hibrida enfoque;Rojo;TARDE;4352;94406;2022-03-21T11:21:29;2022-03-21T12:21:40;true

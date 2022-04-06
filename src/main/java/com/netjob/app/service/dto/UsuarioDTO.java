@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 /**
@@ -45,6 +46,10 @@ public class UsuarioDTO implements Serializable {
 
     private Instant fechaRegistro;
 
+    @Lob
+    private byte[] imagen;
+
+    private String imagenContentType;
     private UserDTO user;
 
     private Set<ConversacionDTO> conversacions = new HashSet<>();
@@ -137,6 +142,22 @@ public class UsuarioDTO implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getImagenContentType() {
+        return imagenContentType;
+    }
+
+    public void setImagenContentType(String imagenContentType) {
+        this.imagenContentType = imagenContentType;
+    }
+
     public UserDTO getUser() {
         return user;
     }
@@ -189,9 +210,9 @@ public class UsuarioDTO implements Serializable {
             ", profesion='" + getProfesion() + "'" +
             ", fn='" + getFn() + "'" +
             ", fechaRegistro='" + getFechaRegistro() + "'" +
+            ", imagen='" + getImagen() + "'" +
             ", user=" + getUser() +
             ", conversacions=" + getConversacions() +
-            
             "}";
     }
 }

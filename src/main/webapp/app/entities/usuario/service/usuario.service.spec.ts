@@ -35,6 +35,8 @@ describe('Usuario Service', () => {
       profesion: 'AAAAAAA',
       fn: currentDate,
       fechaRegistro: currentDate,
+      imagenContentType: 'image/png',
+      imagen: 'AAAAAAA',
     };
   });
 
@@ -94,6 +96,7 @@ describe('Usuario Service', () => {
           profesion: 'BBBBBB',
           fn: currentDate.format(DATE_TIME_FORMAT),
           fechaRegistro: currentDate.format(DATE_TIME_FORMAT),
+          imagen: 'BBBBBB',
         },
         elemDefault
       );
@@ -122,6 +125,7 @@ describe('Usuario Service', () => {
           profesion: 'BBBBBB',
           fn: currentDate.format(DATE_TIME_FORMAT),
           fechaRegistro: currentDate.format(DATE_TIME_FORMAT),
+          imagen: 'BBBBBB',
         },
         new Usuario()
       );
@@ -157,6 +161,7 @@ describe('Usuario Service', () => {
           profesion: 'BBBBBB',
           fn: currentDate.format(DATE_TIME_FORMAT),
           fechaRegistro: currentDate.format(DATE_TIME_FORMAT),
+          imagen: 'BBBBBB',
         },
         elemDefault
       );

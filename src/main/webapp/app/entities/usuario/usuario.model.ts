@@ -14,6 +14,8 @@ export interface IUsuario {
   profesion?: string | null;
   fn?: dayjs.Dayjs;
   fechaRegistro?: dayjs.Dayjs | null;
+  imagenContentType?: string | null;
+  imagen?: string | null;
   user?: IUser | null;
   conversacions?: IConversacion[] | null;
 }
@@ -31,6 +33,8 @@ export class Usuario implements IUsuario {
     public profesion?: string | null,
     public fn?: dayjs.Dayjs,
     public fechaRegistro?: dayjs.Dayjs | null,
+    public imagenContentType?: string | null,
+    public imagen?: string | null,
     public user?: IUser | null,
     public conversacions?: IConversacion[] | null
   ) {}
