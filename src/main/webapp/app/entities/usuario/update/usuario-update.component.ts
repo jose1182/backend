@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -10,9 +10,6 @@ import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 
 import { IUsuario, Usuario } from '../usuario.model';
 import { UsuarioService } from '../service/usuario.service';
-import { AlertError } from 'app/shared/alert/alert-error.model';
-import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { DataUtils, FileLoadError } from 'app/core/util/data-util.service';
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 import { IConversacion } from 'app/entities/conversacion/conversacion.model';
@@ -40,21 +37,14 @@ export class UsuarioUpdateComponent implements OnInit {
     profesion: [],
     fn: [null, [Validators.required]],
     fechaRegistro: [],
-    imagen: [],
-    imagenContentType: [],
-    descripcion: [],
-    codigopostal: [],
     user: [],
     conversacions: [],
   });
 
   constructor(
-    protected dataUtils: DataUtils,
-    protected eventManager: EventManager,
     protected usuarioService: UsuarioService,
     protected userService: UserService,
     protected conversacionService: ConversacionService,
-    protected elementRef: ElementRef,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -71,31 +61,6 @@ export class UsuarioUpdateComponent implements OnInit {
 
       this.loadRelationshipsOptions();
     });
-  }
-
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
-  }
-
-  openFile(base64String: string, contentType: string | null | undefined): void {
-    this.dataUtils.openFile(base64String, contentType);
-  }
-
-  setFileData(event: Event, field: string, isImage: boolean): void {
-    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe({
-      error: (err: FileLoadError) =>
-        this.eventManager.broadcast(new EventWithContent<AlertError>('netjobApp.error', { message: err.message })),
-    });
-  }
-
-  clearInputImage(field: string, fieldContentType: string, idInput: string): void {
-    this.editForm.patchValue({
-      [field]: null,
-      [fieldContentType]: null,
-    });
-    if (idInput && this.elementRef.nativeElement.querySelector('#' + idInput)) {
-      this.elementRef.nativeElement.querySelector('#' + idInput).value = null;
-    }
   }
 
   previousState(): void {
@@ -163,10 +128,6 @@ export class UsuarioUpdateComponent implements OnInit {
       profesion: usuario.profesion,
       fn: usuario.fn ? usuario.fn.format(DATE_TIME_FORMAT) : null,
       fechaRegistro: usuario.fechaRegistro ? usuario.fechaRegistro.format(DATE_TIME_FORMAT) : null,
-      imagen: usuario.imagen,
-      imagenContentType: usuario.imagenContentType,
-      descripcion: usuario.descripcion,
-      codigopostal: usuario.codigopostal,
       user: usuario.user,
       conversacions: usuario.conversacions,
     });
@@ -212,10 +173,6 @@ export class UsuarioUpdateComponent implements OnInit {
       fechaRegistro: this.editForm.get(['fechaRegistro'])!.value
         ? dayjs(this.editForm.get(['fechaRegistro'])!.value, DATE_TIME_FORMAT)
         : undefined,
-      imagenContentType: this.editForm.get(['imagenContentType'])!.value,
-      imagen: this.editForm.get(['imagen'])!.value,
-      descripcion: this.editForm.get(['descripcion'])!.value,
-      codigopostal: this.editForm.get(['codigopostal'])!.value,
       user: this.editForm.get(['user'])!.value,
       conversacions: this.editForm.get(['conversacions'])!.value,
     };

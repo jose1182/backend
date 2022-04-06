@@ -120,12 +120,6 @@ public class UsuarioQueryService extends QueryService<Usuario> {
             if (criteria.getFechaRegistro() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFechaRegistro(), Usuario_.fechaRegistro));
             }
-            if (criteria.getDescripcion() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDescripcion(), Usuario_.descripcion));
-            }
-            if (criteria.getCodigopostal() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCodigopostal(), Usuario_.codigopostal));
-            }
             if (criteria.getUserId() != null) {
                 specification =
                     specification.and(

@@ -5,6 +5,7 @@ import com.netjob.app.service.MensajeQueryService;
 import com.netjob.app.service.MensajeService;
 import com.netjob.app.service.criteria.MensajeCriteria;
 import com.netjob.app.service.dto.MensajeDTO;
+import com.netjob.app.service.dto.ServicioDTO;
 import com.netjob.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -199,5 +200,38 @@ public class MensajeResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    //Mensajes enviados por un usuario (EMISOR)
+    @GetMapping("/mensajes/emisor")
+    public ResponseEntity<List<MensajeDTO>> getMensajeByUsuarioEmisor(
+        @RequestParam(value = "id") Long id,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<MensajeDTO> page = mensajeService.findAllByEmisor_id(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    //Mensajes recibidos por un usuario (RECEPTOR)
+    @GetMapping("/mensajes/receptor")
+    public ResponseEntity<List<MensajeDTO>> getMensajeByUsuarioReceptor(
+        @RequestParam(value = "id") Long id,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<MensajeDTO> page = mensajeService.findAllByEmisor_id(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    //Todos los mensajes de una conversación
+    @GetMapping("/mensajes/conversacion")
+    public ResponseEntity<List<MensajeDTO>> getMensajesByConversacion(
+        @RequestParam(value = "id") Long id,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<MensajeDTO> page = mensajeService.findAllByConversacion_id(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 }

@@ -1,5 +1,6 @@
 package com.netjob.app.service;
 
+import com.netjob.app.domain.Mensaje;
 import com.netjob.app.service.dto.MensajeDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -47,4 +48,10 @@ public interface MensajeService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<MensajeDTO> findAllByEmisor_id(Long emisorId, Pageable pageable);
+
+    Page<MensajeDTO> findAllByReceptor_id(Long receptorId, Pageable pageable);
+
+    Page<MensajeDTO> findAllByConversacion_id(Long id, Pageable pageable);
 }

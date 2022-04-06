@@ -40,7 +40,6 @@
           <th scope="col" jhiSortBy="preciotraslado"><span>Preciotraslado</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="fechacreacion"><span>Fechacreacion</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="fechaactualizacion"><span>Fechaactualizacion</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="destacado"><span>Destacado</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="usuario.id"><span>Usuario</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
@@ -57,7 +56,6 @@
           <td>{{ servicio.preciotraslado }}</td>
           <td>{{ servicio.fechacreacion | formatMediumDatetime }}</td>
           <td>{{ servicio.fechaactualizacion | formatMediumDatetime }}</td>
-          <td>{{ servicio.destacado }}</td>
           <td>
             <div *ngIf="servicio.usuario">
               <a [routerLink]="['/usuario', servicio.usuario?.id, 'view']">{{ servicio.usuario?.id }}</a>

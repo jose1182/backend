@@ -47,10 +47,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
 
     private InstantFilter fechaRegistro;
 
-    private StringFilter descripcion;
-
-    private StringFilter codigopostal;
-
     private LongFilter userId;
 
     private LongFilter conversacionId;
@@ -71,8 +67,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.profesion = other.profesion == null ? null : other.profesion.copy();
         this.fn = other.fn == null ? null : other.fn.copy();
         this.fechaRegistro = other.fechaRegistro == null ? null : other.fechaRegistro.copy();
-        this.descripcion = other.descripcion == null ? null : other.descripcion.copy();
-        this.codigopostal = other.codigopostal == null ? null : other.codigopostal.copy();
         this.userId = other.userId == null ? null : other.userId.copy();
         this.conversacionId = other.conversacionId == null ? null : other.conversacionId.copy();
         this.distinct = other.distinct;
@@ -248,36 +242,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public StringFilter getDescripcion() {
-        return descripcion;
-    }
-
-    public StringFilter descripcion() {
-        if (descripcion == null) {
-            descripcion = new StringFilter();
-        }
-        return descripcion;
-    }
-
-    public void setDescripcion(StringFilter descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public StringFilter getCodigopostal() {
-        return codigopostal;
-    }
-
-    public StringFilter codigopostal() {
-        if (codigopostal == null) {
-            codigopostal = new StringFilter();
-        }
-        return codigopostal;
-    }
-
-    public void setCodigopostal(StringFilter codigopostal) {
-        this.codigopostal = codigopostal;
-    }
-
     public LongFilter getUserId() {
         return userId;
     }
@@ -337,8 +301,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
             Objects.equals(profesion, that.profesion) &&
             Objects.equals(fn, that.fn) &&
             Objects.equals(fechaRegistro, that.fechaRegistro) &&
-            Objects.equals(descripcion, that.descripcion) &&
-            Objects.equals(codigopostal, that.codigopostal) &&
             Objects.equals(userId, that.userId) &&
             Objects.equals(conversacionId, that.conversacionId) &&
             Objects.equals(distinct, that.distinct)
@@ -359,8 +321,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
             profesion,
             fn,
             fechaRegistro,
-            descripcion,
-            codigopostal,
             userId,
             conversacionId,
             distinct
@@ -382,8 +342,6 @@ public class UsuarioCriteria implements Serializable, Criteria {
             (profesion != null ? "profesion=" + profesion + ", " : "") +
             (fn != null ? "fn=" + fn + ", " : "") +
             (fechaRegistro != null ? "fechaRegistro=" + fechaRegistro + ", " : "") +
-            (descripcion != null ? "descripcion=" + descripcion + ", " : "") +
-            (codigopostal != null ? "codigopostal=" + codigopostal + ", " : "") +
             (userId != null ? "userId=" + userId + ", " : "") +
             (conversacionId != null ? "conversacionId=" + conversacionId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

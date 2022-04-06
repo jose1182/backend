@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 /**
@@ -45,14 +44,6 @@ public class UsuarioDTO implements Serializable {
     private Instant fn;
 
     private Instant fechaRegistro;
-
-    @Lob
-    private byte[] imagen;
-
-    private String imagenContentType;
-    private String descripcion;
-
-    private String codigopostal;
 
     private UserDTO user;
 
@@ -146,38 +137,6 @@ public class UsuarioDTO implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getImagenContentType() {
-        return imagenContentType;
-    }
-
-    public void setImagenContentType(String imagenContentType) {
-        this.imagenContentType = imagenContentType;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getCodigopostal() {
-        return codigopostal;
-    }
-
-    public void setCodigopostal(String codigopostal) {
-        this.codigopostal = codigopostal;
-    }
-
     public UserDTO getUser() {
         return user;
     }
@@ -230,11 +189,9 @@ public class UsuarioDTO implements Serializable {
             ", profesion='" + getProfesion() + "'" +
             ", fn='" + getFn() + "'" +
             ", fechaRegistro='" + getFechaRegistro() + "'" +
-            ", imagen='" + getImagen() + "'" +
-            ", descripcion='" + getDescripcion() + "'" +
-            ", codigopostal='" + getCodigopostal() + "'" +
             ", user=" + getUser() +
             ", conversacions=" + getConversacions() +
+            
             "}";
     }
 }

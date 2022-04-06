@@ -2,7 +2,6 @@ package com.netjob.app.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 /**
@@ -14,11 +13,6 @@ public class CategoriaDTO implements Serializable {
 
     @NotNull
     private String nombre;
-
-    @Lob
-    private byte[] imagen;
-
-    private String imagenContentType;
 
     public Long getId() {
         return id;
@@ -34,22 +28,6 @@ public class CategoriaDTO implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getImagenContentType() {
-        return imagenContentType;
-    }
-
-    public void setImagenContentType(String imagenContentType) {
-        this.imagenContentType = imagenContentType;
     }
 
     @Override
@@ -79,7 +57,6 @@ public class CategoriaDTO implements Serializable {
         return "CategoriaDTO{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", imagen='" + getImagen() + "'" +
             "}";
     }
 }

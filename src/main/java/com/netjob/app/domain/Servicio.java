@@ -58,10 +58,6 @@ public class Servicio implements Serializable {
     @Column(name = "fechaactualizacion", nullable = false)
     private Instant fechaactualizacion;
 
-    @NotNull
-    @Column(name = "destacado", nullable = false)
-    private Boolean destacado;
-
     @ManyToOne
     @JsonIgnoreProperties(value = { "user", "conversacions" }, allowSetters = true)
     private Usuario usuario;
@@ -182,19 +178,6 @@ public class Servicio implements Serializable {
         this.fechaactualizacion = fechaactualizacion;
     }
 
-    public Boolean getDestacado() {
-        return this.destacado;
-    }
-
-    public Servicio destacado(Boolean destacado) {
-        this.setDestacado(destacado);
-        return this;
-    }
-
-    public void setDestacado(Boolean destacado) {
-        this.destacado = destacado;
-    }
-
     public Usuario getUsuario() {
         return this.usuario;
     }
@@ -264,7 +247,6 @@ public class Servicio implements Serializable {
             ", preciotraslado=" + getPreciotraslado() +
             ", fechacreacion='" + getFechacreacion() + "'" +
             ", fechaactualizacion='" + getFechaactualizacion() + "'" +
-            ", destacado='" + getDestacado() + "'" +
             "}";
     }
 }

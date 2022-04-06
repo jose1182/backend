@@ -28,13 +28,6 @@ public class Categoria implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Lob
-    @Column(name = "imagen")
-    private byte[] imagen;
-
-    @Column(name = "imagen_content_type")
-    private String imagenContentType;
-
     @ManyToMany(mappedBy = "categorias")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "usuario", "categorias" }, allowSetters = true)
@@ -66,32 +59,6 @@ public class Categoria implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public byte[] getImagen() {
-        return this.imagen;
-    }
-
-    public Categoria imagen(byte[] imagen) {
-        this.setImagen(imagen);
-        return this;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getImagenContentType() {
-        return this.imagenContentType;
-    }
-
-    public Categoria imagenContentType(String imagenContentType) {
-        this.imagenContentType = imagenContentType;
-        return this;
-    }
-
-    public void setImagenContentType(String imagenContentType) {
-        this.imagenContentType = imagenContentType;
     }
 
     public Set<Servicio> getServicios() {
@@ -150,8 +117,6 @@ public class Categoria implements Serializable {
         return "Categoria{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", imagen='" + getImagen() + "'" +
-            ", imagenContentType='" + getImagenContentType() + "'" +
             "}";
     }
 }

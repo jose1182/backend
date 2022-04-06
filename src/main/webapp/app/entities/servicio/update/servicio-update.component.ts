@@ -36,7 +36,6 @@ export class ServicioUpdateComponent implements OnInit {
     preciotraslado: [null, [Validators.required, Validators.min(0)]],
     fechacreacion: [null, [Validators.required]],
     fechaactualizacion: [null, [Validators.required]],
-    destacado: [null, [Validators.required]],
     usuario: [],
     categorias: [],
   });
@@ -125,7 +124,6 @@ export class ServicioUpdateComponent implements OnInit {
       preciotraslado: servicio.preciotraslado,
       fechacreacion: servicio.fechacreacion ? servicio.fechacreacion.format(DATE_TIME_FORMAT) : null,
       fechaactualizacion: servicio.fechaactualizacion ? servicio.fechaactualizacion.format(DATE_TIME_FORMAT) : null,
-      destacado: servicio.destacado,
       usuario: servicio.usuario,
       categorias: servicio.categorias,
     });
@@ -172,7 +170,6 @@ export class ServicioUpdateComponent implements OnInit {
       fechaactualizacion: this.editForm.get(['fechaactualizacion'])!.value
         ? dayjs(this.editForm.get(['fechaactualizacion'])!.value, DATE_TIME_FORMAT)
         : undefined,
-      destacado: this.editForm.get(['destacado'])!.value,
       usuario: this.editForm.get(['usuario'])!.value,
       categorias: this.editForm.get(['categorias'])!.value,
     };

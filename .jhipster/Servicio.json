@@ -40,11 +40,6 @@
       "fieldName": "fechaactualizacion",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "destacado",
-      "fieldType": "Boolean",
-      "fieldValidateRules": ["required"]
     }
   ],
   "jpaMetamodelFiltering": true,

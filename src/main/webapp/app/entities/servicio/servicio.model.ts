@@ -12,7 +12,6 @@ export interface IServicio {
   preciotraslado?: number;
   fechacreacion?: dayjs.Dayjs;
   fechaactualizacion?: dayjs.Dayjs;
-  destacado?: boolean;
   usuario?: IUsuario | null;
   categorias?: ICategoria[] | null;
 }
@@ -27,12 +26,9 @@ export class Servicio implements IServicio {
     public preciotraslado?: number,
     public fechacreacion?: dayjs.Dayjs,
     public fechaactualizacion?: dayjs.Dayjs,
-    public destacado?: boolean,
     public usuario?: IUsuario | null,
     public categorias?: ICategoria[] | null
-  ) {
-    this.destacado = this.destacado ?? false;
-  }
+  ) {}
 }
 
 export function getServicioIdentifier(servicio: IServicio): number | undefined {

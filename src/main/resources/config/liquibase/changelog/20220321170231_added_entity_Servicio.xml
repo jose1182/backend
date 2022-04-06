@@ -35,9 +35,6 @@
             <column name="fechaactualizacion" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="destacado" type="boolean">
-                <constraints nullable="false" />
-            </column>
             <column name="usuario_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -85,7 +82,6 @@
             <column name="preciotraslado" type="numeric"/>
             <column name="fechacreacion" type="date"/>
             <column name="fechaactualizacion" type="date"/>
-            <column name="destacado" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -120,61 +120,6 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_imagen">Imagen</label>
-          <div>
-            <img
-              [src]="'data:' + editForm.get('imagenContentType')!.value + ';base64,' + editForm.get('imagen')!.value"
-              style="max-height: 100px"
-              *ngIf="editForm.get('imagen')!.value"
-              alt="usuario image"
-            />
-            <div *ngIf="editForm.get('imagen')!.value" class="form-text text-danger clearfix">
-              <span class="pull-left">{{ editForm.get('imagenContentType')!.value }}, {{ byteSize(editForm.get('imagen')!.value) }}</span>
-              <button
-                type="button"
-                (click)="clearInputImage('imagen', 'imagenContentType', 'file_imagen')"
-                class="btn btn-secondary btn-xs pull-right"
-              >
-                <fa-icon icon="times"></fa-icon>
-              </button>
-            </div>
-            <input type="file" id="file_imagen" data-cy="imagen" (change)="setFileData($event, 'imagen', true)" accept="image/*" />
-          </div>
-          <input type="hidden" class="form-control" name="imagen" id="field_imagen" data-cy="imagen" formControlName="imagen" />
-          <input
-            type="hidden"
-            class="form-control"
-            name="imagenContentType"
-            id="field_imagenContentType"
-            formControlName="imagenContentType"
-          />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_descripcion">Descripcion</label>
-          <input
-            type="text"
-            class="form-control"
-            name="descripcion"
-            id="field_descripcion"
-            data-cy="descripcion"
-            formControlName="descripcion"
-          />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_codigopostal">Codigopostal</label>
-          <input
-            type="text"
-            class="form-control"
-            name="codigopostal"
-            id="field_codigopostal"
-            data-cy="codigopostal"
-            formControlName="codigopostal"
-          />
-        </div>
-
-        <div class="form-group">
           <label class="form-control-label" for="field_user">User</label>
           <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user">
             <option [ngValue]="null"></option>

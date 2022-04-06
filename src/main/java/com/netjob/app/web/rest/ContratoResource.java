@@ -57,13 +57,13 @@ public class ContratoResource {
     }
 
     /**
-     * {@code POST  /contratoes} : Create a new contrato.
+     * {@code POST  /contratos} : Create a new contrato.
      *
      * @param contratoDTO the contratoDTO to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new contratoDTO, or with status {@code 400 (Bad Request)} if the contrato has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/contratoes")
+    @PostMapping("/contratos")
     public ResponseEntity<ContratoDTO> createContrato(@Valid @RequestBody ContratoDTO contratoDTO) throws URISyntaxException {
         log.debug("REST request to save Contrato : {}", contratoDTO);
         if (contratoDTO.getId() != null) {
@@ -86,7 +86,7 @@ public class ContratoResource {
      * or with status {@code 500 (Internal Server Error)} if the contratoDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/contratoes/{id}")
+    @PutMapping("/contratos/{id}")
     public ResponseEntity<ContratoDTO> updateContrato(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody ContratoDTO contratoDTO
@@ -121,7 +121,7 @@ public class ContratoResource {
      * or with status {@code 500 (Internal Server Error)} if the contratoDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/contratoes/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/contratos/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<ContratoDTO> partialUpdateContrato(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody ContratoDTO contratoDTO
@@ -153,7 +153,7 @@ public class ContratoResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of contratoes in body.
      */
-    @GetMapping("/contratoes")
+    @GetMapping("/contratos")
     public ResponseEntity<List<ContratoDTO>> getAllContratoes(
         ContratoCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
@@ -170,7 +170,7 @@ public class ContratoResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/contratoes/count")
+    @GetMapping("/contratos/count")
     public ResponseEntity<Long> countContratoes(ContratoCriteria criteria) {
         log.debug("REST request to count Contratoes by criteria: {}", criteria);
         return ResponseEntity.ok().body(contratoQueryService.countByCriteria(criteria));
@@ -182,7 +182,7 @@ public class ContratoResource {
      * @param id the id of the contratoDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the contratoDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/contratoes/{id}")
+    @GetMapping("/contratos/{id}")
     public ResponseEntity<ContratoDTO> getContrato(@PathVariable Long id) {
         log.debug("REST request to get Contrato : {}", id);
         Optional<ContratoDTO> contratoDTO = contratoService.findOne(id);
@@ -195,7 +195,7 @@ public class ContratoResource {
      * @param id the id of the contratoDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/contratoes/{id}")
+    @DeleteMapping("/contratos/{id}")
     public ResponseEntity<Void> deleteContrato(@PathVariable Long id) {
         log.debug("REST request to delete Contrato : {}", id);
         contratoService.delete(id);

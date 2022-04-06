@@ -59,8 +59,6 @@ public class ServicioCriteria implements Serializable, Criteria {
 
     private InstantFilter fechaactualizacion;
 
-    private BooleanFilter destacado;
-
     private LongFilter usuarioId;
 
     private LongFilter categoriaId;
@@ -78,7 +76,6 @@ public class ServicioCriteria implements Serializable, Criteria {
         this.preciotraslado = other.preciotraslado == null ? null : other.preciotraslado.copy();
         this.fechacreacion = other.fechacreacion == null ? null : other.fechacreacion.copy();
         this.fechaactualizacion = other.fechaactualizacion == null ? null : other.fechaactualizacion.copy();
-        this.destacado = other.destacado == null ? null : other.destacado.copy();
         this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
         this.categoriaId = other.categoriaId == null ? null : other.categoriaId.copy();
         this.distinct = other.distinct;
@@ -209,21 +206,6 @@ public class ServicioCriteria implements Serializable, Criteria {
         this.fechaactualizacion = fechaactualizacion;
     }
 
-    public BooleanFilter getDestacado() {
-        return destacado;
-    }
-
-    public BooleanFilter destacado() {
-        if (destacado == null) {
-            destacado = new BooleanFilter();
-        }
-        return destacado;
-    }
-
-    public void setDestacado(BooleanFilter destacado) {
-        this.destacado = destacado;
-    }
-
     public LongFilter getUsuarioId() {
         return usuarioId;
     }
@@ -280,7 +262,6 @@ public class ServicioCriteria implements Serializable, Criteria {
             Objects.equals(preciotraslado, that.preciotraslado) &&
             Objects.equals(fechacreacion, that.fechacreacion) &&
             Objects.equals(fechaactualizacion, that.fechaactualizacion) &&
-            Objects.equals(destacado, that.destacado) &&
             Objects.equals(usuarioId, that.usuarioId) &&
             Objects.equals(categoriaId, that.categoriaId) &&
             Objects.equals(distinct, that.distinct)
@@ -298,7 +279,6 @@ public class ServicioCriteria implements Serializable, Criteria {
             preciotraslado,
             fechacreacion,
             fechaactualizacion,
-            destacado,
             usuarioId,
             categoriaId,
             distinct
@@ -317,7 +297,6 @@ public class ServicioCriteria implements Serializable, Criteria {
             (preciotraslado != null ? "preciotraslado=" + preciotraslado + ", " : "") +
             (fechacreacion != null ? "fechacreacion=" + fechacreacion + ", " : "") +
             (fechaactualizacion != null ? "fechaactualizacion=" + fechaactualizacion + ", " : "") +
-            (destacado != null ? "destacado=" + destacado + ", " : "") +
             (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
             (categoriaId != null ? "categoriaId=" + categoriaId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
