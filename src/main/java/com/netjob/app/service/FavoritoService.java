@@ -47,4 +47,7 @@ public interface FavoritoService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /* Servicio que devuelve los favoritos de un usuario */
+    Page<FavoritoDTO> findAllByUsuario_id(Long id, Pageable pageable);
 }

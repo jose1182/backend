@@ -73,4 +73,9 @@ public class FavoritoServiceImpl implements FavoritoService {
         log.debug("Request to delete Favorito : {}", id);
         favoritoRepository.deleteById(id);
     }
+
+    @Override
+    public Page<FavoritoDTO> findAllByUsuario_id(Long id, Pageable pageable) {
+        return favoritoRepository.findAllByUsuario_id(id, pageable).map(favoritoMapper::toDto);
+    }
 }
