@@ -73,4 +73,9 @@ public class ContratoServiceImpl implements ContratoService {
         log.debug("Request to delete Contrato : {}", id);
         contratoRepository.deleteById(id);
     }
+
+    @Override
+    public Page<ContratoDTO> findByUsuario_id(Long id, Pageable page) {
+        return contratoRepository.findByUsuario_id(id, page).map(contratoMapper::toDto);
+    }
 }

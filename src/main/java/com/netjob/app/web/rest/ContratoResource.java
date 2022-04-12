@@ -204,4 +204,12 @@ public class ContratoResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    /* Listado de contratos por id de usuario*/
+    @GetMapping("/contratoes/usuario")
+    public ResponseEntity<List<ContratoDTO>> getContratosByUser(Long id, @org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+        Page<ContratoDTO> page = contratoService.findByUsuario_id(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }

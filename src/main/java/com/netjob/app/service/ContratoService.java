@@ -47,4 +47,7 @@ public interface ContratoService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    /*Listado de contratos filtrados por id de usuario*/
+    Page<ContratoDTO> findByUsuario_id(Long id, Pageable page);
 }
