@@ -87,7 +87,7 @@ out/
 ######################
 .gradle/
 /build/
-
+/config/liquibase/fake-data/blob/
 ######################
 # Package Files
 ######################
