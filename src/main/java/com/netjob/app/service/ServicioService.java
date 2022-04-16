@@ -1,5 +1,6 @@
 package com.netjob.app.service;
 
+import com.netjob.app.domain.Servicio;
 import com.netjob.app.service.dto.ServicioDTO;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -65,4 +66,9 @@ public interface ServicioService {
      * Servicios por categoría
      * */
     Page<ServicioDTO> findAllByCategoria_id(Long id, Pageable pageable);
+
+    /*
+     * Servicios destacados
+     * */
+    Page<ServicioDTO> findByDestacadoTrue(Pageable pageable);
 }

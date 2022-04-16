@@ -226,4 +226,12 @@ public class ServicioResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
+
+    /*Servicios vinculados a una categoría concreta*/
+    @GetMapping("/servicios/destacados")
+    public ResponseEntity<List<ServicioDTO>> getServicioByCategoria(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+        Page<ServicioDTO> page = servicioService.findByDestacadoTrue(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }
