@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ContratoRepository extends JpaRepository<Contrato, Long>, JpaSpecificationExecutor<Contrato> {
-    Page<Contrato> findByUsuario_id(Long id, Pageable page);
+    Page<Contrato> findAllByUsuario_id(Long id, Pageable page);
 }
