@@ -126,6 +126,8 @@ public class UsuarioResource {
         @NotNull @RequestBody UsuarioDTO usuarioDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Usuario partially : {}, {}", id, usuarioDTO);
+        usuarioDTO.setId(id);
+
         if (usuarioDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -143,6 +145,26 @@ public class UsuarioResource {
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, usuarioDTO.getId().toString())
         );
+    }
+
+    @PatchMapping(value = "/usuarios/editar/{id}", consumes = { "application/json" })
+    public String editarUsuario(@PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody UsuarioDTO usuarioDTO)
+        throws URISyntaxException {
+        log.debug("REST request to partial update Usuario partially : {}, {}", id, usuarioDTO);
+        if (usuarioDTO.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, usuarioDTO.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        usuarioService.editar(usuarioDTO);
+
+        return "Actualización finalizada";
     }
 
     /**

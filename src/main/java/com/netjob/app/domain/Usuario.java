@@ -58,7 +58,6 @@ public class Usuario implements Serializable {
     @Column(name = "profesion")
     private String profesion;
 
-    @Null
     @Column(name = "fn", nullable = true)
     private Instant fn;
 

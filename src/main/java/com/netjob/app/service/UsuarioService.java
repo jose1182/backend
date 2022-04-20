@@ -6,6 +6,7 @@ import com.netjob.app.repository.UsuarioRepository;
 import com.netjob.app.service.dto.UsuarioDTO;
 import com.netjob.app.service.mapper.UsuarioMapper;
 import java.util.Optional;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -110,5 +111,20 @@ public class UsuarioService {
     public void delete(Long id) {
         log.debug("Request to delete Usuario : {}", id);
         usuarioRepository.deleteById(id);
+    }
+
+    public void editar(@NotNull UsuarioDTO usuarioDTO) {
+        usuarioRepository
+            .findById(usuarioDTO.getId())
+            .map(existingUsuario -> {
+                usuarioMapper.partialUpdate(existingUsuario, usuarioDTO);
+                log.debug("usuario a guardar" + existingUsuario);
+                return existingUsuario;
+            })
+            .map(usuarioAGuardar -> {
+                Usuario usuario = usuarioRepository.save(usuarioAGuardar);
+                log.debug("usuario guardado " + usuario);
+                return usuario;
+            });
     }
 }
