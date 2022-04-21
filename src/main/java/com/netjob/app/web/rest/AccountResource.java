@@ -3,6 +3,7 @@ package com.netjob.app.web.rest;
 import com.netjob.app.domain.User;
 import com.netjob.app.repository.UserRepository;
 import com.netjob.app.repository.UsuarioRepository;
+import com.netjob.app.security.AuthoritiesConstants;
 import com.netjob.app.security.SecurityUtils;
 import com.netjob.app.service.MailService;
 import com.netjob.app.service.UserService;
@@ -144,6 +145,54 @@ public class AccountResource {
             userDTO.getLangKey(),
             userDTO.getImageUrl()
         );
+    }
+
+    @PostMapping("/rolespecialista")
+    public void addEspecialista() {
+        String userLogin = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+        userService.addRole(user.get().getId(), AuthoritiesConstants.ESPECIALISTA);
+    }
+
+    @DeleteMapping("/rolespecialista")
+    public void removeEspecialista() {
+        String userLogin = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+        userService.removeRole(user.get().getId(), AuthoritiesConstants.ESPECIALISTA);
+    }
+
+    @PostMapping("/rolpremium")
+    public void addPremium() {
+        String userLogin = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+        userService.addRole(user.get().getId(), AuthoritiesConstants.PREMIUM);
+    }
+
+    @DeleteMapping("/rolpremium")
+    public void removePremium() {
+        String userLogin = SecurityUtils
+            .getCurrentUserLogin()
+            .orElseThrow(() -> new AccountResourceException("Current user login not found"));
+        Optional<User> user = userRepository.findOneByLogin(userLogin);
+        if (!user.isPresent()) {
+            throw new AccountResourceException("User could not be found");
+        }
+        userService.removeRole(user.get().getId(), AuthoritiesConstants.PREMIUM);
     }
 
     /**

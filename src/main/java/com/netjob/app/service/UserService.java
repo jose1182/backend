@@ -240,6 +240,57 @@ public class UserService {
             .map(AdminUserDTO::new);
     }
 
+    public Optional<AdminUserDTO> addRole(long id, String rol) {
+        return Optional
+            .of(userRepository.findById(id))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(user -> {
+                Set<Authority> managedAuthorities = user.getAuthorities();
+                Authority authority = authorityRepository
+                    .findAll()
+                    .stream()
+                    .filter(autoridadExistente -> {
+                        return autoridadExistente.getName().equals(rol);
+                    })
+                    .findFirst()
+                    .get();
+
+                if (!managedAuthorities.contains(authority)) {
+                    log.debug("se va a añadir rol " + rol);
+                    managedAuthorities.add(authority);
+                }
+                return user;
+            })
+            .map(AdminUserDTO::new);
+    }
+
+    public Optional<AdminUserDTO> removeRole(long id, String rol) {
+        return Optional
+            .of(userRepository.findById(id))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .map(user -> {
+                Set<Authority> managedAuthorities = user.getAuthorities();
+                Authority authority = authorityRepository
+                    .findAll()
+                    .stream()
+                    .filter(autoridadExistente -> {
+                        log.debug((autoridadExistente.getName() + rol));
+                        return autoridadExistente.getName().equals(rol);
+                    })
+                    .findFirst()
+                    .get();
+
+                if (managedAuthorities.contains(authority)) {
+                    log.debug("se va a eliminar rol " + rol);
+                    managedAuthorities.remove(authority);
+                }
+                return user;
+            })
+            .map(AdminUserDTO::new);
+    }
+
     public void deleteUser(String login) {
         userRepository
             .findOneByLogin(login)
