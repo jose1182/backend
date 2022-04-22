@@ -9,3 +9,4 @@ id;nombre;imagen;imagen_content_type
 8;Diseño;../fake-data/blob/diseno.jpg;image/jpg
 9;Seguridad;../fake-data/blob/seguridad.jpg;image/jpg
 10;Transporte;../fake-data/blob/transporte.jpg;image/jpg
+11;Electricista;../fake-data/blob/electricista.jpg;image/jpg
