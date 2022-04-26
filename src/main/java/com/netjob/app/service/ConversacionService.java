@@ -47,4 +47,6 @@ public interface ConversacionService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<ConversacionDTO> findByUsuarios_id(Long id, Pageable page);
 }

@@ -73,4 +73,9 @@ public class ConversacionServiceImpl implements ConversacionService {
         log.debug("Request to delete Conversacion : {}", id);
         conversacionRepository.deleteById(id);
     }
+
+    @Override
+    public Page<ConversacionDTO> findByUsuarios_id(Long id, Pageable page) {
+        return conversacionRepository.findAllByUsuarios_id(id, page).map(conversacionMapper::toDto);
+    }
 }

@@ -1,6 +1,8 @@
 package com.netjob.app.repository;
 
 import com.netjob.app.domain.Conversacion;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ConversacionRepository extends JpaRepository<Conversacion, Long>, JpaSpecificationExecutor<Conversacion> {}
+public interface ConversacionRepository extends JpaRepository<Conversacion, Long>, JpaSpecificationExecutor<Conversacion> {
+    Page<Conversacion> findAllByUsuarios_id(Long id, Pageable page);
+}

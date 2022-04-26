@@ -202,4 +202,14 @@ public class ConversacionResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    @GetMapping("/conversacions/usuario")
+    public ResponseEntity<List<ConversacionDTO>> getConversacionsByUser(
+        @RequestParam(value = "id") Long id,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        Page<ConversacionDTO> page = conversacionService.findByUsuarios_id(id, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
 }
