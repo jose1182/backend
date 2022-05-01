@@ -1,9 +1,9 @@
 id;nombre;imagen;imagen_content_type
-1;Fontaneria;../fake-data/blob/fontaneria.jpg;image/jpg
-2;Informatica;../fake-data/blob/informatica.jpg;image/jpg
-3;Construccion;../fake-data/blob/construccion.jpg;image/jpg
-4;Odontologia;../fake-data/blob/odontologia.jpg;image/jpg
-5;Enseñanza;../fake-data/blob/ensenanza.jpg;image/jpg
+1;Fontanería;../fake-data/blob/fontaneria.jpg;image/jpg
+2;Informática;../fake-data/blob/informatica.jpg;image/jpg
+3;Construcción;../fake-data/blob/construccion.jpg;image/jpg
+4;Odontología;../fake-data/blob/odontologia.jpg;image/jpg
+5;Educación;../fake-data/blob/ensenanza.jpg;image/jpg
 6;Arquitectura;../fake-data/blob/arquitectura.jpg;image/jpg
 7;Medicina;../fake-data/blob/medicina.jpg;image/jpg
 8;Diseño;../fake-data/blob/diseno.jpg;image/jpg
