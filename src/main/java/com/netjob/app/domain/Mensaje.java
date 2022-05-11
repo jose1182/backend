@@ -39,7 +39,7 @@ public class Mensaje implements Serializable {
     @JsonIgnoreProperties(value = { "user", "conversacions" }, allowSetters = true)
     private Usuario receptor;
 
-    @ManyToOne(cascade = { CascadeType.ALL })
+    @ManyToOne
     @JsonIgnoreProperties(value = { "usuarios" }, allowSetters = true)
     private Conversacion conversacion;
 
