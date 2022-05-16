@@ -46,8 +46,8 @@ spring:
     database-platform: tech.jhipster.domain.util.FixedH2Dialect
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev
-    drop-first: false
+    contexts: dev, faker
+    drop-first: true
   mail:
     host: smtp.gmail.com
     port: 587
